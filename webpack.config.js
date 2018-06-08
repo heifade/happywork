@@ -1,15 +1,20 @@
-const webpack = require('webpack');
+const webpack = require("webpack");
 const path = require("path");
 
-module.exports = async function () {
+module.exports = async function() {
   let config = {
-    mode: 'development',
+    mode: "development",
     entry: {
-      index: path.relative(__dirname, "./src/index"),
+      index: path.resolve(__dirname, "./src/index")
     },
+    target: "node",
     output: {
-      path: path.relative(__dirname, "./dist"),
+      path: path.resolve(__dirname, "./dist"),
       filename: "[name].js",
+
+    },
+    resolve: {
+      extensions: [".js", ".ts", ".json"]
     },
     module: {
       rules: [
@@ -17,13 +22,13 @@ module.exports = async function () {
           test: /\.js/,
           use: [
             {
-              loader: "babel-loader",
+              loader: "babel-loader"
             }
           ]
         }
       ]
     }
-  }
+  };
 
   return config;
-}
+};
