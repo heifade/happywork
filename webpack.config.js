@@ -10,8 +10,7 @@ module.exports = async function() {
     target: "node",
     output: {
       path: path.resolve(__dirname, "./dist"),
-      filename: "[name].js",
-
+      filename: "[name].js"
     },
     resolve: {
       extensions: [".js", ".ts", ".json"]
@@ -19,7 +18,8 @@ module.exports = async function() {
     module: {
       rules: [
         {
-          test: /\.js/,
+          test: /\.js$/,
+          exclude: /node_modules/,
           use: [
             {
               loader: "babel-loader"

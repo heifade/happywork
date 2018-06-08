@@ -1,13 +1,20 @@
-
-
 import commander from "commander";
+import colors from "colors";
 
-commander.version();
+const packageInfo = require("../package.json");
 
-commander.command("run [name]").action(() => {
-  console.log(1, name);
-}).parse(process.argv);
+commander.version(packageInfo.version, "-v, --version").command("run <cmd>");
 
+commander.command("*").action(env => {
+  commander.outputHelp(redOut);
+});
 
+commander.parse(process.argv);
 
-console.log(11, process.argv);
+if (!process.argv.slice(2).length) {
+  commander.outputHelp(redOut);
+}
+
+function redOut(txt) {
+  return colors.red(txt);
+}
