@@ -5,7 +5,8 @@ module.exports = async function() {
   let config = {
     mode: "development",
     entry: {
-      index: path.resolve(__dirname, "./src/index")
+      index: path.resolve(__dirname, "./src/index"),
+      upgrade: path.resolve(__dirname, "./src/upgrade"),
     },
     target: "node",
     output: {
