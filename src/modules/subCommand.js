@@ -1,4 +1,5 @@
 import { pad, padEnd } from "lodash";
+import { runCommand } from "./runCommand";
 
 export const subCommandList = [{ command: "create", des: "创建项目" }, { command: "build", des: "构建项目" }];
 
@@ -8,4 +9,9 @@ export function getSubCommandListInfo() {
   subCommandList.map(c => {
     console.log(pad("", 5), padEnd(c.command, 20), c.des);
   });
+}
+
+
+export function upgradeSubCommand() {
+
 }
