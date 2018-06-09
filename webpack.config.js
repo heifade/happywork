@@ -28,6 +28,11 @@ module.exports = async function() {
           ]
         }
       ]
+    },
+    watch: true,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 1000
     }
   };
 
