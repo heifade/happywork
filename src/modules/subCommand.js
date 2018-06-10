@@ -13,5 +13,5 @@ export function getSubCommandListInfo() {
 
 
 export function upgradeSubCommand() {
-
+  runCommand('','')
 }
