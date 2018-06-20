@@ -1,7 +1,7 @@
 import { pad, padEnd } from "lodash";
 import { runCommand } from "./runCommand";
 
-export const subCommandList = [{ command: "create", des: "创建项目" }, { command: "build", des: "构建项目" }];
+export const subCommandList = [{ command: "create", des: "创建项目" }, { command: "build", des: "构建项目" }, {command: "renameFiles", des: "重命名目录下的文件"}];
 
 export function getSubCommandListInfo() {
   console.log();
