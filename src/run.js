@@ -40,7 +40,7 @@ commander
     fileList = fileList.sort((v1, v2) => v1.lastWriteTime - v2.lastWriteTime);
 
     // 先将文件名全改成 GUID 防止文件名称相同
-    fileList.map(file => {
+    fileList.map((file, i) => {
       if (i >= skip) {
         let extname = path.extname(file.fileFullName);
         let pathname = path.dirname(file.fileFullName);
@@ -64,7 +64,7 @@ commander
         let no = start + (i - skip) * step;
         let extname = path.extname(file.fileFullName);
         let pathname = path.dirname(file.fileFullName);
-        let newFileName = path.join(pathname, `${prefix}${padStart(no, length, "0")}.${extname}`);
+        let newFileName = path.join(pathname, `${prefix}${padStart(no, length, "0")}${extname}`);
 
         fs.renameSync(file.fileFullName, newFileName);
 
