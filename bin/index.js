@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
-require('../dist/');
+require("../dist/index");
+
+
+
 
 

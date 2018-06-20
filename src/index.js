@@ -3,6 +3,10 @@ import { getSubCommandListInfo } from "./modules/subCommand";
 
 const packageInfo = require("../package.json");
 
+commander.version(packageInfo.version, "-v, --version");
+
+
+
 commander
   .command("list")
   .description("列出所有子命令")
@@ -17,12 +21,12 @@ commander
     console.log("upgrade");
   });
 
-commander.version(packageInfo.version, "-v, --version").command("run [name]", "运行子命令");
+commander.command("run [name]", "运行子命令");
 
-// 未定义子命令时提示帮忙
-commander.on("command:*", function() {
-  commander.help();
-});
+// // 未定义子命令时提示帮忙
+// commander.on("command:*", function() {
+//   commander.help();
+// });
 
 commander.parse(process.argv);
 
