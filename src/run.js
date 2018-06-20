@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import { padStart } from "lodash";
 import uuid from "node-uuid";
-import ProgressBar from "progress"
+import ProgressBar from "progress";
 
 function toInt(v) {
   return parseInt(v);
@@ -41,11 +41,13 @@ commander
 
     // 先将文件名全改成 GUID 防止文件名称相同
     fileList.map(file => {
-      let extname = path.extname(file.fileFullName);
-      let pathname = path.dirname(file.fileFullName);
-      let newFileName = `${pathname}/${uuid.v1()}${extname}`;
-      fs.renameSync(file.fileFullName, newFileName);
-      file.fileFullName = newFileName;
+      if (i >= skip) {
+        let extname = path.extname(file.fileFullName);
+        let pathname = path.dirname(file.fileFullName);
+        let newFileName = `${pathname}/${uuid.v1()}${extname}`;
+        fs.renameSync(file.fileFullName, newFileName);
+        file.fileFullName = newFileName;
+      }
     });
 
     const progressBar = new ProgressBar("处理进度[:bar]进度值:percent 用时:etas", {
@@ -67,18 +69,11 @@ commander
         fs.renameSync(file.fileFullName, newFileName);
 
         progressBar.tick();
-        count ++;
+        count++;
       }
     });
 
-    console.log(`\n完成，共处理文件数：${count}，跳过：${skip}`)
+    console.log(`\n完成，共处理文件数：${count}，跳过：${skip}`);
   });
 
 commander.parse(process.argv);
-
-
-
-
-
-
-
