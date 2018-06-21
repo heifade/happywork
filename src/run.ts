@@ -1,11 +1,11 @@
-import commander from "commander";
-import path from "path";
-import fs from "fs";
+import * as commander from "commander";
+import { resolve, join, extname, dirname } from "path";
+import { readdirSync, lstatSync, renameSync } from "fs";
 import { padStart } from "lodash";
-import uuid from "node-uuid";
-import ProgressBar from "progress";
+import { v1 as uuid } from "node-uuid";
+import * as ProgressBar from "progress";
 
-function toInt(v) {
+function toInt(v: string) {
   return parseInt(v);
 }
 
@@ -13,7 +13,7 @@ commander
   .command("rename")
   .option("--prefix <n>", "文件名开头", "P")
   .option("--length <n>", "数字位数", toInt, 3)
-  .option("--path <n>", "目录，默认为当前目录", path.resolve(process.cwd()))
+  .option("--path <n>", "目录，默认为当前目录", resolve(process.cwd()))
   .option("--skip <n>", "跳过前面几个文件", toInt, 0)
   .option("--start <n>", "开始序号", toInt, 1)
   .option("--step <n>", "步进", toInt, 2)
@@ -26,10 +26,10 @@ commander
     let start = pars.start;
     let step = pars.step;
 
-    let fileList = [];
-    fs.readdirSync(pathName).map(file => {
-      let fileFullName = path.join(pathName, file);
-      let stat = fs.lstatSync(fileFullName);
+    let fileList: { fileFullName: string; lastWriteTime: number }[] = [];
+    readdirSync(pathName).map(file => {
+      let fileFullName = join(pathName, file);
+      let stat = lstatSync(fileFullName);
 
       fileList.push({
         fileFullName: fileFullName,
@@ -42,10 +42,8 @@ commander
     // 先将文件名全改成 GUID 防止文件名称相同
     fileList.map((file, i) => {
       if (i >= skip) {
-        let extname = path.extname(file.fileFullName);
-        let pathname = path.dirname(file.fileFullName);
-        let newFileName = `${pathname}/${uuid.v1()}${extname}`;
-        fs.renameSync(file.fileFullName, newFileName);
+        let newFileName = `${dirname(file.fileFullName)}/${uuid()}${extname(file.fileFullName)}`;
+        renameSync(file.fileFullName, newFileName);
         file.fileFullName = newFileName;
       }
     });
@@ -62,11 +60,9 @@ commander
     fileList.map((file, i, array) => {
       if (i >= skip) {
         let no = start + (i - skip) * step;
-        let extname = path.extname(file.fileFullName);
-        let pathname = path.dirname(file.fileFullName);
-        let newFileName = path.join(pathname, `${prefix}${padStart(no, length, "0")}${extname}`);
+        let newFileName = join(dirname(file.fileFullName), `${prefix}${padStart(no, length, "0")}${extname(file.fileFullName)}`);
 
-        fs.renameSync(file.fileFullName, newFileName);
+        renameSync(file.fileFullName, newFileName);
 
         progressBar.tick();
         count++;

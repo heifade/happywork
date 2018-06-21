@@ -1,5 +1,5 @@
-import commander from "commander";
-import { getSubCommandListInfo } from "./modules/subCommand";
+import * as commander from "commander";
+import { getSubCommandListInfo } from "./utils/subCommand";
 
 const packageInfo = require("../package.json");
 

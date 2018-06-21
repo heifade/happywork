@@ -1,18 +1,16 @@
-const webpack = require("webpack");
-const path = require("path");
-const HttpWebpackPlugin = require("html-webpack-plugin");
+import { Configuration } from "webpack";
+import { resolve } from "path";
 
-module.exports = async function() {
-  let config = {
+export default async function() {
+  let config: Configuration = {
     mode: "development",
     entry: {
-      index: path.resolve(__dirname, "./src/index"),
-      run: path.resolve(__dirname, "./src/run"),
-      // aa: path.resolve(__dirname, "./src/aa")
+      index: resolve(__dirname, "./src/index"),
+      run: resolve(__dirname, "./src/run")
     },
     target: "node",
     output: {
-      path: path.resolve(__dirname, "./dist"),
+      path: resolve(__dirname, "./dist"),
       filename: "[name].js"
     },
     devtool: "source-map",
@@ -22,11 +20,11 @@ module.exports = async function() {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.ts$/,
           exclude: /node_modules/,
           use: [
             {
-              loader: "babel-loader"
+              loader: "ts-loader"
             }
           ]
         }
@@ -80,4 +78,4 @@ module.exports = async function() {
   };
 
   return config;
-};
+}

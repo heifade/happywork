@@ -1,8 +1,8 @@
-import child_process from "child_process";
+import { spawn } from "child_process";
 
-export function runCommand(command, args) {
+export function runCommand(command: string, args: string[]) {
   return new Promise((resolve, reject) => {
-    const executedCommand = child_process.spawn(command, args, {
+    const executedCommand = spawn(command, args, {
       stdio: "inherit",
       shell: true
     });
