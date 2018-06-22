@@ -1,7 +1,7 @@
 import * as webpack from "webpack";
 import * as path from "path";
 // import getBabelConfig from "../babel/babel.config";
-// import * as HtmlWebpackPlugin from "html-webpack-plugin";
+
 // import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 // import { getToolsModulePath } from "../utils/getPath";
 import { existsSync } from "fs";
@@ -16,16 +16,9 @@ export default function() {
 
     let config: webpack.Configuration = {
       mode: "development",
-      // context: CWD,
-      // entry: {
-      //   index: [
-      //     path.relative(__dirname, '../../webpack-dev-server/client'),
-      //     path.resolve(CWD, "./src/index")
-      //   ]
-      // },
-      // entry: {
-      //   index: path.resolve(CWD, "./src/index")
-      // },
+      entry: {
+        index: path.resolve(CWD, "./src/index")
+      },
       output: {
         path: path.resolve(CWD, "./dist"),
         filename: "[name].[hash:8].js",
@@ -34,10 +27,10 @@ export default function() {
       devtool: "source-map",
       resolve: {
         modules: [path.join(__dirname, "../../node_modules"), path.join(CWD, "../node_modules")],
-        extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
-      }
-      // target: "web",
-      // node: ["child_process", "fs", "module", "net"].reduce((last, curr) => Object.assign({}, last, { [curr]: "empty" }), {}),
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
+      },
+      target: "web",
+      node: ["child_process", "fs", "module", "net"].reduce((last, curr) => Object.assign({}, last, { [curr]: "empty" }), {}),
       // module: {
       //   noParse: [/jquery/],
       //   rules: [
@@ -137,9 +130,9 @@ export default function() {
       //   runtimeChunk: false
       // },
 
-      // plugins: [
-
-      // ],
+      plugins: [
+        
+      ],
       // devServer: {
       //   publicPath: "/",
       //   proxy: {}
