@@ -1,16 +1,24 @@
 import * as webpack from "webpack";
-import * as path from "path";
-import webconfigCreater from "../configs/webconfigCreater";
+import webconfigCreater from "../../configs/webconfigCreater";
+import mergeConfig from "./mergeConfig";
 import chalk from "chalk";
 const rimraf = require("rimraf");
 
 export async function build() {
   let config = await webconfigCreater();
 
+  
+
+  config = await mergeConfig(config);
+
+  console.log(11, config);
+
   // 删除输出目录
   if (config.output.path) {
     rimraf.sync(config.output.path);
   }
+
+  //console.log(config);
 
   // 删除构建临时目录
   // rimraf.sync(path.resolve(process.cwd(), "build-temp"));
@@ -23,16 +31,17 @@ export async function build() {
       // }
       return;
     }
-
     const info = stats.toJson();
     if (stats.hasErrors()) {
-      console.error(info.errors);
+      info.errors.map((e: string) => {
+        console.log(chalk.red(e));
+      });
     }
-
     if (stats.hasWarnings()) {
-      console.warn(info.warnings);
+      info.warnings.map((e: string) => {
+        console.log(chalk.yellow(e));
+      });
     }
-
     const buildInfo = stats.toString({
       colors: true,
       children: true,

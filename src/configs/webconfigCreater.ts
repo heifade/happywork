@@ -23,6 +23,9 @@ export default function() {
       //     path.resolve(CWD, "./src/index")
       //   ]
       // },
+      // entry: {
+      //   index: path.resolve(CWD, "./src/index")
+      // },
       output: {
         path: path.resolve(CWD, "./dist"),
         filename: "[name].[hash:8].js",
@@ -32,9 +35,9 @@ export default function() {
       resolve: {
         modules: [path.join(__dirname, "../../node_modules"), path.join(CWD, "../node_modules")],
         extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
-      },
-      target: "web",
-      node: ["child_process", "fs", "module", "net"].reduce((last, curr) => Object.assign({}, last, { [curr]: "empty" }), {}),
+      }
+      // target: "web",
+      // node: ["child_process", "fs", "module", "net"].reduce((last, curr) => Object.assign({}, last, { [curr]: "empty" }), {}),
       // module: {
       //   noParse: [/jquery/],
       //   rules: [
@@ -113,43 +116,43 @@ export default function() {
       //     // }
       //   ]
       // },
-      optimization: {
-        splitChunks: {
-          cacheGroups: {
-            commons: {
-              chunks: "initial",
-              minChunks: 2,
-              maxInitialRequests: 5,
-              minSize: 0
-            },
-            vendor: {
-              test: /node_modules/,
-              chunks: "initial",
-              name: "vendor",
-              priority: 10,
-              enforce: true
-            }
-          }
-        },
-        runtimeChunk: false
-      },
+      // optimization: {
+      //   splitChunks: {
+      //     cacheGroups: {
+      //       commons: {
+      //         chunks: "initial",
+      //         minChunks: 2,
+      //         maxInitialRequests: 5,
+      //         minSize: 0
+      //       },
+      //       vendor: {
+      //         test: /node_modules/,
+      //         chunks: "initial",
+      //         name: "vendor",
+      //         priority: 10,
+      //         enforce: true
+      //       }
+      //     }
+      //   },
+      //   runtimeChunk: false
+      // },
 
-      plugins: [
-        
-      ],
-      devServer: {
-        publicPath: "/",
-        proxy: {}
-      },
-      performance: {
-        hints: "warning", // 有性能问题时输出警告
-        maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
-        maxEntrypointSize: 200 * 1024, // 最大入口文件大小，单位bytes
-        assetFilter: function(assetFilterName) {
-          // 过滤要检查的文件
-          return assetFilterName.endsWith(".css");
-        }
-      }
+      // plugins: [
+
+      // ],
+      // devServer: {
+      //   publicPath: "/",
+      //   proxy: {}
+      // },
+      // performance: {
+      //   hints: "warning", // 有性能问题时输出警告
+      //   maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
+      //   maxEntrypointSize: 200 * 1024, // 最大入口文件大小，单位bytes
+      //   assetFilter: function(assetFilterName) {
+      //     // 过滤要检查的文件
+      //     return assetFilterName.endsWith(".css");
+      //   }
+      // }
     };
 
     resolve(config);
