@@ -1,5 +1,5 @@
 import * as webpack from "webpack";
-import webconfigCreater from "../../configs/webconfigCreater";
+import webconfigCreater from "../../../configs/webconfigCreater";
 import mergeConfig from "./mergeConfig";
 import chalk from "chalk";
 const rimraf = require("rimraf");
@@ -7,11 +7,7 @@ const rimraf = require("rimraf");
 export async function build() {
   let config = await webconfigCreater();
 
-  
-
   config = await mergeConfig(config);
-
-  console.log(11, config);
 
   // 删除输出目录
   if (config.output.path) {

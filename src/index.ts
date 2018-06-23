@@ -1,5 +1,5 @@
-// import * as commander from "commander";
-const commander = require("commander");
+import * as commander from "commander";
+// const commander = require("commander");
 import { getSubCommandListInfo } from "./utils/subCommand";
 
 const packageInfo = require("../package.json");

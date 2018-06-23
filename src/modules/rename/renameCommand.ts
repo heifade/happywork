@@ -1,4 +1,4 @@
-import { CommanderStatic } from "commander";
+import * as commander from "commander";
 import { resolve, join, extname, dirname } from "path";
 import { readdirSync, lstatSync, renameSync } from "fs";
 import { padStart } from "lodash";
@@ -9,7 +9,7 @@ function toInt(v: string) {
   return parseInt(v);
 }
 
-export function addRenameCommand(commander: CommanderStatic) {
+export function addRenameCommand() {
   commander
     .command("rename")
     .option("--prefix <n>", "文件名开头", "P")

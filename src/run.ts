@@ -1,9 +1,11 @@
 import * as commander from "commander";
 import { addRenameCommand } from "./modules/rename/renameCommand";
-import { addBuildCommand } from "./modules/build/buildCommand";
+import { addCommand } from "./modules/web/index"
 
-addRenameCommand(commander);
-addBuildCommand(commander);
+
+addRenameCommand();
+addCommand();
+
 
 
 commander.parse(process.argv);

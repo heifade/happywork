@@ -1,7 +1,7 @@
-import { CommanderStatic } from "commander";
+import * as commander from "commander";
 import { build } from "./webBuilder";
 
-export function addBuildCommand(commander: CommanderStatic) {
+export function addBuildCommand() {
   commander
     .command("webbuild")
     //.option("--step <n>", "步进", toInt, 2)

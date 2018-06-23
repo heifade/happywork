@@ -3,7 +3,7 @@ import { resolve } from "path";
 import { renameSync } from "fs";
 import { WebConfig } from "happywork-config";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
-const tsToJs = require("../../tools/tsToJs");
+const tsToJs = require("../../../tools/tsToJs");
 const rimraf = require("rimraf");
 
 async function readProjectConfig(file: string) {
@@ -36,7 +36,6 @@ export default async function(config: Configuration) {
     entry: projConfig.entry
   };
 
-  console.log(112, projConfig.html);
 
   if (projConfig.html) {
     projConfig.html.map(h => {
