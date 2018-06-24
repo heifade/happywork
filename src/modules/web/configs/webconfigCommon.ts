@@ -34,14 +34,14 @@ export async function getWebconfigCommon() {
 
   let projConfig = await readProjectConfig(resolve(process.cwd(), "./webConfig.ts"));
 
-  let newConfig: Configuration = {
+  let config: Configuration = {
     ...webpackConfig,
     entry: projConfig.entry
   };
 
   if (projConfig.html) {
     projConfig.html.map(h => {
-      newConfig.plugins.push(
+      config.plugins.push(
         new HtmlWebpackPlugin({
           title: h.title,
           template: h.url
@@ -50,5 +50,5 @@ export async function getWebconfigCommon() {
     });
   }
 
-  return newConfig;
+  return config;
 }

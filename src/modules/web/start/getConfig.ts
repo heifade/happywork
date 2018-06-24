@@ -1,5 +1,5 @@
-import { join, resolve } from "path";
-
+import { Configuration } from "webpack";
+import { join } from "path";
 import { getWebconfigCommon } from "../configs/webconfigCommon";
 import { getToolsModulePath } from "../../../utils/pathHelper";
 import { isString, isArray } from "util";
@@ -9,7 +9,7 @@ export interface Pars {
   port: number;
 }
 
-export default async function(pars: Pars) {
+export default async function(pars: Pars): Promise<Configuration> {
   let config = await getWebconfigCommon();
 
   let entry = config.entry as Object;
