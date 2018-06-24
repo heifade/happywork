@@ -1,6 +1,6 @@
 {
   "name": "happywork",
-  "version": "1.0.0",
+  "version": "1.0.0-beta1",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -24,7 +24,8 @@
     "open": "^0.0.5",
     "progress": "^2.0.0",
     "single-line-log": "^1.1.2",
-    "webpack": "^4.12.0"
+    "webpack": "^4.12.0",
+    "webpack-dev-server": "^3.1.4"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
@@ -45,7 +46,6 @@
     "rimraf": "^2.6.2",
     "ts-node": "^6.1.2",
     "typescript": "^2.9.2",
-    "uuid": "^3.2.1",
-    "webpack-dev-server": "^3.1.4"
+    "uuid": "^3.2.1"
   }
 }
