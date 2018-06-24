@@ -1,7 +1,7 @@
 import { Configuration, NamedModulesPlugin, HotModuleReplacementPlugin } from "webpack";
-import * as path from "path";
+import { resolve, join } from "path";
 import { getToolsModulePath } from "../../../utils/pathHelper";
-import getBabelConfig from "./babel/babel.config";
+import { getBabelConfig } from "./babel/babel.config";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 export default async function(): Promise<Configuration> {
@@ -13,16 +13,16 @@ export default async function(): Promise<Configuration> {
   let config: Configuration = {
     mode: "development",
     entry: {
-      index: path.resolve(CWD, "./src/index")
+      index: resolve(CWD, "./src/index")
     },
     output: {
-      path: path.resolve(CWD, "./dist"),
+      path: resolve(CWD, "./dist"),
       filename: "[name].[hash:8].js",
       chunkFilename: "[name].[chunkhash:8].js"
     },
     devtool: "source-map",
     resolve: {
-      modules: [path.join(__dirname, "../../../../node_modules"), path.join(CWD, "./node_modules")],
+      modules: [join(__dirname, "../../../../node_modules"), join(CWD, "./node_modules")],
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
     },
     target: "web",

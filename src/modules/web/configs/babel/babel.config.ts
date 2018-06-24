@@ -1,7 +1,7 @@
 import * as path from "path";
 import { getToolsModulePath } from "../../../../utils/pathHelper";
 
-export default function(modules: any) {
+export function getBabelConfig(modules: any) {
   return {
     presets: [
       getToolsModulePath("babel-preset-react"),
