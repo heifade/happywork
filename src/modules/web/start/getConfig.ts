@@ -5,6 +5,7 @@ import { getToolsModulePath } from "../../../utils/pathHelper";
 import { isString, isArray } from "util";
 
 export interface Pars {
+  host: string;
   port: number;
 }
 
@@ -13,7 +14,7 @@ export default async function(pars: Pars) {
 
   let entry = config.entry as Object;
 
-  let client = join(getToolsModulePath("webpack-dev-server"), `./client?http://localhost:${pars.port}`);
+  let client = join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://${pars.host}:${pars.port}`;
 
   let resultEntry: any = {};
   for (let key of Object.keys(entry)) {
@@ -27,8 +28,6 @@ export default async function(pars: Pars) {
 
   config.entry = resultEntry;
   config.mode = "development";
-
-  console.log(11, config);
 
   return config;
 }

@@ -8,7 +8,7 @@ const openBrowser = require("open");
 export async function start() {
   let host = ip.address();
   let port = 8080;
-  let config = await getConfig({port: port});
+  let config = await getConfig({host, port});
 
   let serverConfig: Server.Configuration = {
     ...config.devServer,
@@ -28,6 +28,8 @@ export async function start() {
   };
 
   let compiler = webpack(config);
+
+  console.log(config);
 
   let server = new Server(compiler, serverConfig);
 

@@ -1,0 +1,15 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "target": "es6",
+    "jsx": "react",
+    "module": "commonjs",
+    // "types" : ["node"],
+    "declaration": true,
+    "sourceMap": true,
+  },
+  // "exclude": ["node_modules"]
+}
+
