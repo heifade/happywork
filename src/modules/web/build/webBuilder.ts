@@ -1,13 +1,11 @@
 import * as webpack from "webpack";
-import webconfigCreater from "../../../configs/webconfigCreater";
-import mergeConfig from "./mergeConfig";
+import getConfig from "./getConfig";
 import chalk from "chalk";
 const rimraf = require("rimraf");
 
 export async function build() {
-  let config = await webconfigCreater();
+  let config = await getConfig();
 
-  config = await mergeConfig(config);
 
   // 删除输出目录
   if (config.output.path) {

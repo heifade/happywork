@@ -1,12 +1,13 @@
-import { Configuration } from "webpack";
 import { resolve } from "path";
 import { renameSync } from "fs";
 import { WebConfig } from "happywork-config";
+import { Configuration } from "webpack";
+import getWebconfig from "./webconfig";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 const tsToJs = require("../../../tools/tsToJs");
 const rimraf = require("rimraf");
 
-async function readProjectConfig(file: string) {
+export async function readProjectConfig(file: string) {
   let CWD = process.cwd();
   let tempConfigFilePath = resolve(CWD, `./temp_${new Date().getTime()}`);
   let tempConfigFile = resolve(tempConfigFilePath, "webConfig.js");
@@ -28,14 +29,15 @@ async function readProjectConfig(file: string) {
   }
 }
 
-export default async function(config: Configuration) {
+export async function getWebconfigCommon() {
+  let webpackConfig = await getWebconfig();
+
   let projConfig = await readProjectConfig(resolve(process.cwd(), "./webConfig.ts"));
 
   let newConfig: Configuration = {
-    ...config,
+    ...webpackConfig,
     entry: projConfig.entry
   };
-
 
   if (projConfig.html) {
     projConfig.html.map(h => {

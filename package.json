@@ -15,10 +15,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/ip": "^0.0.31",
+    "@types/webpack-dev-server": "^2.9.4",
     "colorful": "^2.1.0",
     "colors": "^1.3.0",
     "commander": "^2.15.1",
     "lodash": "^4.17.10",
+    "open": "^0.0.5",
     "progress": "^2.0.0",
     "single-line-log": "^1.1.2",
     "webpack": "^4.12.0"
@@ -38,9 +41,11 @@
     "gulp-typescript": "^5.0.0-alpha.2",
     "happywork-config": "^1.0.0-beta3",
     "html-webpack-plugin": "^3.2.0",
+    "ip": "^1.1.5",
     "rimraf": "^2.6.2",
     "ts-node": "^6.1.2",
     "typescript": "^2.9.2",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "webpack-dev-server": "^3.1.4"
   }
 }
