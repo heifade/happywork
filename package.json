@@ -1,11 +1,10 @@
 {
   "name": "happywork",
-  "version": "1.0.0-beta1",
+  "version": "1.0.0-beta3",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
-    "happywork": "./bin/index.js",
-    "happywork-upgrade": "./bin/upgrade.js"
+    "happywork": "./bin/index.js"
   },
   "scripts": {
     "build": "gulp build",
