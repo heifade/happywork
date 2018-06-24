@@ -1,4 +1,4 @@
-import * as path from "path";
+import { resolve } from "path";
 import { getToolsModulePath } from "../../../../utils/pathHelper";
 
 export function getBabelConfig(modules: any) {
@@ -15,22 +15,24 @@ export function getBabelConfig(modules: any) {
         }
       ]
     ],
-    cacheDirectory: path.resolve(process.cwd(), "build-temp/babel"),
+    cacheDirectory: resolve(process.cwd(), "build-temp/babel"),
     plugins: [
-      getToolsModulePath("babel-plugin-transform-es3-member-expression-literals"),
-      getToolsModulePath("babel-plugin-transform-es3-property-literals"),
-      getToolsModulePath("babel-plugin-transform-object-assign"),
-      getToolsModulePath("babel-plugin-transform-class-properties"),
-      getToolsModulePath("babel-plugin-transform-object-rest-spread")
       // [
       //   getToolsModulePath("babel-plugin-transform-runtime"),
       //   {
       //     // helpers: false,
       //     polyfill: false,
       //     // regenerator: true,
-      //     moduleName: "babel-runtime"
+      //     // moduleName: "babel-runtime"
       //   }
       // ],
+      getToolsModulePath("babel-plugin-syntax-dynamic-import"),
+      getToolsModulePath("babel-plugin-transform-es3-member-expression-literals"),
+      getToolsModulePath("babel-plugin-transform-es3-property-literals"),
+      getToolsModulePath("babel-plugin-transform-object-assign"),
+      getToolsModulePath("babel-plugin-transform-class-properties"),
+      getToolsModulePath("babel-plugin-transform-object-rest-spread")
+      
     ]
   };
 }
