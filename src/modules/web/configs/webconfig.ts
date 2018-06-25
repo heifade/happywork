@@ -52,12 +52,26 @@ export default async function(): Promise<Configuration> {
         },
         {
           test: /\.css$/,
+          exclude: /node_modules/,
           use: [
             MiniCssExtractPlugin.loader,
             {
               loader: getToolsModulePath("css-loader"),
               options: {
-                //modules: true
+                modules: true
+              }
+            }
+          ]
+        },
+        {
+          test: /\.css$/,
+          include: /node_modules/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: getToolsModulePath("css-loader"),
+              options: {
+                // modules: true
               }
             }
           ]

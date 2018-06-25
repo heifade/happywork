@@ -29,7 +29,7 @@ export async function start() {
 
   let compiler = webpack(config);
 
-  console.log(config);
+  // console.log(config);
 
   let server = new Server(compiler, serverConfig);
 
