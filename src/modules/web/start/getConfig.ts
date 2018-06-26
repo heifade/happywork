@@ -15,14 +15,15 @@ export default async function(pars: Pars): Promise<Configuration> {
   let entry = config.entry as Object;
 
   let client = join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://${pars.host}:${pars.port}`;
+  let polyfill = getToolsModulePath("babel-polyfill");
 
   let resultEntry: any = {};
   for (let key of Object.keys(entry)) {
     let entryValue = Reflect.get(entry, key);
     if (isString(entryValue)) {
-      resultEntry[key] = [client, entryValue];
+      resultEntry[key] = [polyfill, client, entryValue];
     } else if (isArray(entryValue)) {
-      resultEntry[key] = [client].concat(entryValue);
+      resultEntry[key] = [polyfill, client].concat(entryValue);
     }
   }
 

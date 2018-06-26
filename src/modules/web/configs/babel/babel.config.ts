@@ -10,7 +10,7 @@ export function getBabelConfig(modules: any) {
         {
           modules,
           targets: {
-            browsers: ["last 2 versions", "Firefox ESR", "> 1%", "ie >= 9", "iOS >= 8", "Android >= 4"]
+            browsers: ["last 2 versions", "Firefox ESR", "> 1%", "ie >= 11", "iOS >= 8", "Android >= 4"]
           }
         }
       ]
@@ -22,8 +22,8 @@ export function getBabelConfig(modules: any) {
       //   {
       //     // helpers: false,
       //     polyfill: false,
-      //     // regenerator: true,
-      //     // moduleName: "babel-runtime"
+      //     regenerator: true,
+      //     moduleName: "babel-runtime"
       //   }
       // ],
       getToolsModulePath("babel-plugin-syntax-dynamic-import"),
