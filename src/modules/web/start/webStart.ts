@@ -8,7 +8,7 @@ const openBrowser = require("open");
 export async function start() {
   let host = ip.address();
   let port = 8080;
-  let config = await getConfig({host, port});
+  let config = await getConfig({ host, port });
 
   let serverConfig: Server.Configuration = {
     ...config.devServer,
@@ -20,11 +20,10 @@ export async function start() {
     watchOptions: {
       poll: 1000 // 监听文件变化频率单位毫秒
     },
-    ...{
-      stats: {
-        colors: true
-      }
-    }
+
+    // stats: {
+    //   colors: true
+    // }
   };
 
   let compiler = webpack(config);
