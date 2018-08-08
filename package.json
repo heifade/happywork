@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "build": "gulp build",
-    "start": "gulp start"
+    "start": "gulp start",
+    "update": "yarn upgrade --latest"
   },
   "keywords": [],
   "author": "",
