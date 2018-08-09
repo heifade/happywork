@@ -112,7 +112,10 @@ export default async function(): Promise<Configuration> {
       }),
       new NamedModulesPlugin(),
       new HotModuleReplacementPlugin()
-    ]
+    ],
+    devServer: {
+      port: 8080,
+    }
     // performance: {
     //   hints: "warning", // 有性能问题时输出警告
     //   maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes

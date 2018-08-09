@@ -7,8 +7,7 @@ const openBrowser = require("open");
 
 export async function start() {
   let host = ip.address();
-  let port = 8080;
-  let config = await getConfig({ host, port });
+  let config = await getConfig({ host });
 
   let serverConfig: Server.Configuration = {
     ...config.devServer,
@@ -19,7 +18,7 @@ export async function start() {
     compress: true, // gzip 压缩
     watchOptions: {
       poll: 1000 // 监听文件变化频率单位毫秒
-    },
+    }
 
     // stats: {
     //   colors: true
@@ -28,9 +27,8 @@ export async function start() {
 
   let compiler = webpack(config);
 
-  // console.log(config);
-
   let server = new Server(compiler, serverConfig);
+  let port = config.devServer.port;
 
   server.listen(port, "0.0.0.0", function() {
     console.log(chalk.green(`Starting server on http://${host}:${port}`));

@@ -34,6 +34,8 @@ export async function getWebconfigCommon() {
 
   let projConfig = await readProjectConfig(resolve(process.cwd(), "./webConfig.ts"));
 
+  webpackConfig.devServer.port = projConfig.port;
+
   let config: Configuration = {
     ...webpackConfig,
     entry: projConfig.entry

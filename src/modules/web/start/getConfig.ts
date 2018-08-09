@@ -6,7 +6,6 @@ import { isString, isArray } from "util";
 
 export interface Pars {
   host: string;
-  port: number;
 }
 
 export default async function(pars: Pars): Promise<Configuration> {
@@ -14,7 +13,7 @@ export default async function(pars: Pars): Promise<Configuration> {
 
   let entry = config.entry as Object;
 
-  let client = join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://${pars.host}:${pars.port}`;
+  let client = join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://${pars.host}:${config.devServer.port}`;
   let polyfill = getToolsModulePath("babel-polyfill");
 
   let resultEntry: any = {};
