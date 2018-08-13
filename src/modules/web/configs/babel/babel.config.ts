@@ -10,8 +10,12 @@ export function getBabelConfig(modules: any) {
         {
           modules,
           targets: {
-            browsers: ["last 2 versions", "Firefox ESR", "> 1%", "ie >= 11", "iOS >= 8", "Android >= 4"]
-          }
+            browsers: ["chrome >= 68", "safari >= 11", "Firefox >= 61"]
+          },
+          useBuiltIns: false,
+          shippedProposals: true,
+          debug: true,
+          loose: false
         }
       ]
     ],

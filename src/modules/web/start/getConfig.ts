@@ -20,9 +20,9 @@ export default async function(pars: Pars): Promise<Configuration> {
   for (let key of Object.keys(entry)) {
     let entryValue = Reflect.get(entry, key);
     if (isString(entryValue)) {
-      resultEntry[key] = [polyfill, client, entryValue];
+      resultEntry[key] = [client, entryValue];
     } else if (isArray(entryValue)) {
-      resultEntry[key] = [polyfill, client].concat(entryValue);
+      resultEntry[key] = [client].concat(entryValue);
     }
   }
 
