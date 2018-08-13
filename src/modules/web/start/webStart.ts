@@ -27,6 +27,8 @@ export async function start() {
 
   let compiler = webpack(config);
 
+  serverConfig.proxy = config.devServer.proxy;
+
   let server = new Server(compiler, serverConfig);
   let port = config.devServer.port;
 
