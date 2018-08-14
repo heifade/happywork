@@ -46,8 +46,10 @@ export async function getWebconfigCommon() {
     projConfig.html.map(h => {
       config.plugins.push(
         new HtmlWebpackPlugin({
+          filename: h.filename,
           title: h.title,
-          template: h.url
+          template: h.template,
+          chunks: h.chunks
         })
       );
     });
