@@ -107,8 +107,8 @@ export default async function(): Promise<Configuration> {
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "[chunkhash:8].[name].css",
-        chunkFilename: "[id].css"
+        filename: "[name].[chunkhash:8].css",
+        chunkFilename: "[id].[chunkhash:8].css"
       }),
       new NamedModulesPlugin(),
       new HotModuleReplacementPlugin()
