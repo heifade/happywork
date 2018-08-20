@@ -30,7 +30,7 @@ gulp.task("build", async () => {
 });
 
 gulp.task("start", ["build"], () => {
-  gulp.watch(["src/**/*.ts", "src/**/*.js"], async () => {
+  gulp.watch(["src/**/*.ts", "src/**/*.js"], {interval: 1000},  async () => {
     clean();
     await build();
   });
