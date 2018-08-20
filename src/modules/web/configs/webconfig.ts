@@ -114,7 +114,7 @@ export default async function(): Promise<Configuration> {
       new HotModuleReplacementPlugin()
     ],
     devServer: {
-      port: 8080,
+      port: 8080
     }
     // performance: {
     //   hints: "warning", // 有性能问题时输出警告
