@@ -19,7 +19,10 @@ export function addSendFtpCommand() {
     .action(pars => {
       let password = (new Buffer(pars.password, "base64")).toString().substr(9);
       let ftp = new Ftp(pars.host, 21, pars.user, password);
-      ftp.send(pars.path);
+
+      let CWD = process.cwd();
+      let path = resolve(CWD, pars.path);
+      ftp.send(path);
     });
 }
 
