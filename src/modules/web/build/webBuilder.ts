@@ -6,7 +6,6 @@ const rimraf = require("rimraf");
 export async function build() {
   let config = await getConfig();
 
-
   // 删除输出目录
   if (config.output.path) {
     rimraf.sync(config.output.path);
