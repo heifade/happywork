@@ -1,7 +1,7 @@
 import * as webpack from "webpack";
 import { getConfig } from "./getConfig";
 import chalk from "chalk";
-const rimraf = require("rimraf");
+import * as rimraf from "rimraf";
 
 export async function build() {
   let { webConfig, webpackConfig } = await getConfig();

@@ -1,5 +1,6 @@
 import { getWebpackConfig } from "../configs/webpackConfig";
-const UglifyjsWebpackPlugin = require("uglifyjs-webpack-plugin");
+import * as UglifyJsPlugin from "uglifyjs-webpack-plugin";
+import * as OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 
 export async function getConfig() {
   let { webConfig, webpackConfig } = await getWebpackConfig("production");
@@ -10,24 +11,27 @@ export async function getConfig() {
     namedChunks: false,
 
     minimizer: [
-      new UglifyjsWebpackPlugin({
+      new UglifyJsPlugin({
+        test: [/\.js/],
+        cache: true,
         parallel: true, // CPU 核数 - 1
-        sourceMap: true,
+        sourceMap: webConfig.sourceMap,
         uglifyOptions: {
           output: {
             // commons: false
             // beautify: false,
           }
         }
-      })
+      }),
+      new OptimizeCSSAssetsPlugin({})
     ],
     splitChunks: {
       chunks: "all",
       // automaticNameDelimiter: "_",
-      // minSize: 30000,
-      // minChunks: 1,
-      // maxAsyncRequests: 5,
-      // maxInitialRequests: 3,
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5, // 最大的异步请求数量
+      maxInitialRequests: 3, // 最大的实始化请求数量
       name: true,
       cacheGroups: {
         default: {
@@ -41,7 +45,8 @@ export async function getConfig() {
           chunks: "async",
           name: "vendor-async",
           priority: 10, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
+          minChunks: 1
+          // enforce: true // 强制执行(即使没有达到大小)
         },
         // 将node_modules下 非异步加载的模块打包到 vendor-initial.js 里
         vendor_init: {
@@ -49,20 +54,21 @@ export async function getConfig() {
           chunks: "initial",
           name: "vendor-initial",
           priority: 10, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
+          minChunks: 1
+          // enforce: true // 强制执行(即使没有达到大小)
         },
         // 将 异步加载的模块打包到 commons-async.js 里
         commons_async: {
           name: "commons-async",
           chunks: "async",
-          // minChunks: 2
-          enforce: true // 强制执行(即使没有达到大小)
+          minChunks: 1
+          // enforce: true // 强制执行(即使没有达到大小)
         },
         commons_init: {
           name: "commons-init",
           chunks: "initial",
-          enforce: true // 强制执行(即使没有达到大小)
-          // minChunks: 2
+          minChunks: 1
+          // enforce: true // 强制执行(即使没有达到大小)
         }
       }
     },
