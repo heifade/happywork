@@ -1,5 +1,5 @@
 import { getWebpackConfig } from "../configs/webpackConfig";
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const UglifyjsWebpackPlugin = require("uglifyjs-webpack-plugin");
 
 export async function getConfig() {
   let { webConfig, webpackConfig } = await getWebpackConfig("production");
@@ -10,7 +10,7 @@ export async function getConfig() {
     namedChunks: false,
 
     minimizer: [
-      new UglifyJsPlugin({
+      new UglifyjsWebpackPlugin({
         parallel: true, // CPU 核数 - 1
         sourceMap: true,
         uglifyOptions: {
