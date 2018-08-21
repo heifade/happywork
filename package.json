@@ -1,6 +1,6 @@
 {
   "name": "happywork",
-  "version": "1.0.0-beta13",
+  "version": "1.0.0-beta14",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/rimraf": "^2.0.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
@@ -64,17 +65,17 @@
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
+    "@types/fs-extra": "^5.0.4",
+    "@types/ftp": "^0.3.29",
     "@types/html-webpack-plugin": "^3.2.0",
     "@types/ip": "^0.0.31",
     "@types/lodash": "^4.14.116",
     "@types/mini-css-extract-plugin": "^0.2.0",
     "@types/node": "^10.5.7",
     "@types/progress": "^2.0.1",
+    "@types/single-line-log": "^1.1.0",
     "@types/uuid": "^3.4.3",
-    "@types/webpack": "^4.4.9",
-    "@types/webpack-dev-server": "^2.9.4",
-    "@types/fs-extra": "^5.0.4",
-    "@types/ftp": "^0.3.29",
-    "@types/single-line-log": "^1.1.0"
+    "@types/webpack": "4.4.9",
+    "@types/webpack-dev-server": "^2.9.4"
   }
 }

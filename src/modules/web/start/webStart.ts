@@ -9,8 +9,10 @@ export async function start() {
   let host = ip.address();
   let config = await getConfig({ host });
 
+
   let serverConfig: Server.Configuration = {
     ...config.devServer,
+    
 
     disableHostCheck: true, // 远程可通过ip访问
     https: false, // 是否启用https

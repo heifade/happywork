@@ -1,131 +1,27 @@
-import { Configuration, NamedModulesPlugin, HotModuleReplacementPlugin } from "webpack";
-import { resolve, join } from "path";
-import { getToolsModulePath } from "../../../utils/pathHelper";
-import { getBabelConfig } from "./babel/babel.config";
-import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { resolve } from "path";
+import { renameSync } from "fs";
+import { WebConfig } from "happywork-config";
+const tsToJs = require("../../../tools/tsToJs");
+import * as rimraf from "rimraf";
 
-export default async function(): Promise<Configuration> {
-  let modules = false;
+export async function getWebConfig(file: string) {
+  let CWD = process.cwd();
+  let tempConfigFilePath = resolve(CWD, `./temp_${new Date().getTime()}`);
+  let tempConfigFile = resolve(tempConfigFilePath, "webConfig.js");
+  await tsToJs(file, tempConfigFilePath);
 
-  let babelConfig = getBabelConfig(modules || false);
-  const CWD = process.cwd();
+  let tempConfigFile2 = resolve(CWD, `./temp_${new Date().getTime()}.js`);
+  renameSync(tempConfigFile, tempConfigFile2);
 
-  let config: Configuration = {
-    mode: "development",
-    entry: {
-      index: resolve(CWD, "./src/index")
-    },
-    output: {
-      path: resolve(CWD, "./dist"),
-      filename: "[name].[hash:8].js",
-      chunkFilename: "[name].[chunkhash:8].js"
-    },
-    devtool: "source-map",
-    resolve: {
-      modules: [join(__dirname, "../../../../node_modules"), join(CWD, "./node_modules")],
-      extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
-    },
-    target: "web",
-    node: ["child_process", "fs", "module", "net"].reduce((last, curr) => Object.assign({}, last, { [curr]: "empty" }), {}),
-    module: {
-      noParse: [/jquery/],
-      rules: [
-        {
-          test: /\.jsx?$/,
-          exclude: /node_modules/,
-          loader: getToolsModulePath("babel-loader"),
-          options: babelConfig
-        },
-        {
-          test: /\.tsx?$/,
-          exclude: [/node_modules/],
-          use: [
-            {
-              loader: getToolsModulePath("babel-loader"),
-              options: babelConfig
-            },
-            {
-              loader: getToolsModulePath("ts-loader"),
-              options: { transpileOnly: true }
-            }
-          ]
-        },
-        {
-          test: /\.css$/,
-          exclude: /node_modules/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: getToolsModulePath("css-loader"),
-              options: {
-                modules: true
-              }
-            }
-          ]
-        },
-        {
-          test: /\.css$/,
-          include: /node_modules/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: getToolsModulePath("css-loader"),
-              options: {
-                // modules: true
-              }
-            }
-          ]
-        },
-        {
-          test: /\.less$/,
-          exclude: /node_modules/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: getToolsModulePath("css-loader"),
-              options: {
-                modules: true
-              }
-            },
-            {
-              loader: getToolsModulePath("less-loader"),
-              options: {}
-            }
-          ]
-        },
-        {
-          test: /\.(woff|woff2|eot|ttf|otf|png|svg|gif|jpe?g)$/,
-          exclude: /node_modules/,
-          loader: getToolsModulePath("url-loader"),
-          options: {
-            name: "[name].[hash:8].[ext]",
-            outputPath: "imgs/",
-            limit: 120
-          }
-        }
-      ]
-    },
-    plugins: [
-      new MiniCssExtractPlugin({
-        filename: "[name].[chunkhash:8].css",
-        chunkFilename: "[id].[chunkhash:8].css"
-      }),
-      new NamedModulesPlugin(),
-      new HotModuleReplacementPlugin()
-    ],
-    devServer: {
-      port: 8080
-    }
-    // performance: {
-    //   hints: "warning", // 有性能问题时输出警告
-    //   maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
-    //   maxEntrypointSize: 200 * 1024, // 最大入口文件大小，单位bytes
-    //   assetFilter: function(assetFilterName) {
-    //     // 过滤要检查的文件
-    //     return assetFilterName.endsWith(".css");
-    //   }
-    // }
-  };
+  let config = require(tempConfigFile2).default;
+  rimraf.sync(tempConfigFilePath);
+  rimraf.sync(tempConfigFile2);
 
-  return config;
+  switch (typeof config) {
+    case "function":
+      return (await config()) as WebConfig;
+    case "object":
+    default:
+      return config as WebConfig;
+  }
 }

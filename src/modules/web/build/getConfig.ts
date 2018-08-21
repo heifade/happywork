@@ -1,11 +1,9 @@
 import { Configuration } from "webpack";
-import { getWebconfigCommon } from "../configs/webconfigCommon";
+import { getWebpackConfig } from "../configs/webpackConfig";
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 export default async function(): Promise<Configuration> {
-  let config = await getWebconfigCommon();
-
-  config.mode = "production";
+  let config = await getWebpackConfig("production");
 
   config.optimization = {
     minimize: true,
