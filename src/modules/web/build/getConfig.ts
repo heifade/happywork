@@ -6,7 +6,7 @@ export async function getConfig() {
   let { webConfig, webpackConfig } = await getWebpackConfig("production");
 
   webpackConfig.optimization = {
-    minimize: true,
+    minimize: webConfig.minimize,
     namedModules: false,
     namedChunks: false,
 

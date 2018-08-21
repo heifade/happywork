@@ -17,11 +17,23 @@ export async function getWebConfig(file: string) {
   rimraf.sync(tempConfigFilePath);
   rimraf.sync(tempConfigFile2);
 
+  let webConfig: WebConfig;
+
   switch (typeof config) {
     case "function":
-      return (await config()) as WebConfig;
+      webConfig = (await config()) as WebConfig;
+      break;
     case "object":
     default:
-      return config as WebConfig;
+      webConfig = config as WebConfig;
+      break;
   }
+
+  if (webConfig.sourceMap === undefined) {
+    webConfig.sourceMap = false;
+  }
+  if (webConfig.minimize === undefined) {
+    webConfig.minimize = true;
+  }
+  return webConfig;
 }
