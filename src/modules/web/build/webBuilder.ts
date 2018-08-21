@@ -1,14 +1,14 @@
 import * as webpack from "webpack";
-import getConfig from "./getConfig";
+import { getConfig } from "./getConfig";
 import chalk from "chalk";
 const rimraf = require("rimraf");
 
 export async function build() {
-  let config = await getConfig();
+  let { webConfig, webpackConfig } = await getConfig();
 
   // 删除输出目录
-  if (config.output.path) {
-    rimraf.sync(config.output.path);
+  if (webpackConfig.output.path) {
+    rimraf.sync(webpackConfig.output.path);
   }
 
   //console.log(config);
@@ -16,7 +16,7 @@ export async function build() {
   // 删除构建临时目录
   // rimraf.sync(path.resolve(process.cwd(), "build-temp"));
 
-  webpack(config, (err, stats) => {
+  webpack(webpackConfig, (err, stats) => {
     if (err) {
       console.error(err.stack || err);
       // if (err.details) {

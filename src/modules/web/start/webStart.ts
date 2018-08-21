@@ -1,19 +1,18 @@
 import * as ip from "ip";
-import * as Server from "webpack-dev-server";
+import * as WebpackDevServer from "webpack-dev-server";
 import chalk from "chalk";
 import * as webpack from "webpack";
-import getConfig from "./getConfig";
+import { getConfig } from "./getConfig";
 const openBrowser = require("open");
 
 export async function start() {
   let host = ip.address();
-  let config = await getConfig({ host });
 
+  let { webConfig, webpackConfig } = await getConfig(host);
 
-  let serverConfig: Server.Configuration = {
-    ...config.devServer,
-    
-
+  let serverConfig: WebpackDevServer.Configuration = {
+    proxy: webConfig.proxy,
+    port: webConfig.port,
     disableHostCheck: true, // 远程可通过ip访问
     https: false, // 是否启用https
     clientLogLevel: "info", // 客户端日志级别
@@ -21,21 +20,17 @@ export async function start() {
     watchOptions: {
       poll: 1000 // 监听文件变化频率单位毫秒
     }
-
     // stats: {
     //   colors: true
     // }
   };
 
-  let compiler = webpack(config);
+  let compiler = webpack(webpackConfig);
 
-  serverConfig.proxy = config.devServer.proxy;
+  let server = new WebpackDevServer(compiler as any, serverConfig);
 
-  let server = new Server(compiler, serverConfig);
-  let port = config.devServer.port;
-
-  server.listen(port, "0.0.0.0", function() {
-    console.log(chalk.green(`Starting server on http://${host}:${port}`));
-    openBrowser(`http://${host}:${port}`);
+  server.listen(webConfig.port, "0.0.0.0", function() {
+    console.log(chalk.green(`Starting server on http://${host}:${webConfig.port}`));
+    openBrowser(`http://${host}:${webConfig.port}`);
   });
 }

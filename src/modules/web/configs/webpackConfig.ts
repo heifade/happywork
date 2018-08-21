@@ -5,8 +5,14 @@ import { getBabelConfig } from "./babel/babel.config";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import { getWebConfig } from "./webConfig";
+import { WebConfig } from "happywork-config";
 
-export async function getWebpackConfig(mode: "development" | "production"): Promise<Configuration> {
+interface ReturnData {
+  webpackConfig: Configuration;
+  webConfig: WebConfig;
+}
+
+export async function getWebpackConfig(mode: "development" | "production"): Promise<ReturnData> {
   let webConfig = await getWebConfig(resolve(process.cwd(), "./webConfig.ts"));
 
   let modules = false;
@@ -107,7 +113,7 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
         }
       ]
     },
-    
+
     plugins: [
       new MiniCssExtractPlugin({
         filename: "[name].[chunkhash:8].css",
@@ -116,7 +122,7 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
       new NamedModulesPlugin(),
       new HotModuleReplacementPlugin(),
       ...webConfig.html.map(
-        (item, index) =>
+        (item: any, index: number) =>
           new HtmlWebpackPlugin({
             filename: item.filename,
             title: item.title,
@@ -124,21 +130,7 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
             chunks: item.chunks
           })
       )
-    ],
-
-    
-    
-    devServer:
-      mode === "development"
-        ? {
-            port: webConfig.port,
-            proxy: webConfig.proxy
-          }
-        : {}
-    // devServer: {
-    //   port: webConfig.port,
-    //   proxy: webConfig.proxy
-    // }
+    ]
     // performance: {
     //   hints: "warning", // 有性能问题时输出警告
     //   maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
@@ -150,5 +142,8 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
     // }
   };
 
-  return config;
+  return {
+    webConfig: webConfig,
+    webpackConfig: config
+  };
 }

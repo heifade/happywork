@@ -1,19 +1,15 @@
-import { Configuration, Entry } from "webpack";
-import { join } from "path";
 import { getWebpackConfig } from "../configs/webpackConfig";
+import { Entry } from "webpack";
+import { join } from "path";
 import { getToolsModulePath } from "../../../utils/pathHelper";
 import { isString, isArray } from "util";
 
-export interface Pars {
-  host: string;
-}
+export async function getConfig(host: string) {
+  let { webConfig, webpackConfig } = await getWebpackConfig("development");
 
-export default async function(pars: Pars): Promise<Configuration> {
-  let config = await getWebpackConfig("development");
+  let entry = webpackConfig.entry as Entry;
 
-  let entry = config.entry as Entry;
-
-  let client = join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://${pars.host}:${config.devServer.port}`;
+  let client = join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://${host}:${webConfig.port}`;
 
   let resultEntry: any = {};
   for (let key of Object.keys(entry)) {
@@ -25,7 +21,7 @@ export default async function(pars: Pars): Promise<Configuration> {
     }
   }
 
-  config.entry = resultEntry;
+  webpackConfig.entry = resultEntry;
 
-  return config;
+  return { webConfig, webpackConfig };
 }
