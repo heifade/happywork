@@ -1,4 +1,4 @@
-import { Configuration, NamedModulesPlugin, HotModuleReplacementPlugin } from "webpack";
+import { Configuration, NamedModulesPlugin, HotModuleReplacementPlugin, ContextReplacementPlugin } from "webpack";
 import { resolve, join } from "path";
 import { getToolsModulePath } from "../../../utils/pathHelper";
 import { getBabelConfig } from "./babel/babel.config";
@@ -127,7 +127,8 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
             template: item.template,
             chunks: item.chunks
           })
-      )
+      ),
+      new ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn|en-nz/)
     ],
     performance: {
       hints: "warning", // 有性能问题时输出警告
