@@ -33,7 +33,7 @@ export function addSendFtpCommand() {
 
   commander
     .command("encrypt")
-    .option("--text <n>", "需要加密的内容", "")
+    .option("--text <n>", `需要加密的内容。${chalk.red("注意：如有特殊字符，需要用单引号括起来，如：'123!56'")}`, "")
     .description("用des算法加密文本内容，并用base64编码返回")
     .action(pars => {
       let enc = des.encrypt(Buffer.from(pars.text, "utf8"), key);
