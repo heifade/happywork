@@ -24,13 +24,12 @@ export async function getConfig() {
           keep_classnames: false,
           keep_fnames: false,
           compress: {
-            drop_console: true,
+            drop_console: true
           },
           output: {
-            beautify: false,
+            beautify: false
           }
-        },
-        
+        }
       }),
       new OptimizeCSSAssetsPlugin({})
     ],
@@ -39,7 +38,7 @@ export async function getConfig() {
       minSize: 30000,
       minChunks: 1,
       maxAsyncRequests: 5, // 最大的异步请求数量
-      maxInitialRequests: 5, // 最大的实始化请求数量
+      maxInitialRequests: 5, // 最大的初始化请求数量
       name: false,
       cacheGroups: {
         // 将node_modules下 异步加载的模块打包到这里
@@ -126,7 +125,7 @@ export async function getConfig() {
           reuseExistingChunk: true
         }
       }
-    },
+    }
     // runtimeChunk: {
     //   name: entrypoint => `runtime-${entrypoint.name}`
     // }
