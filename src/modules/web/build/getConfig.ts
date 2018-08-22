@@ -27,7 +27,7 @@ export async function getConfig() {
     ],
     splitChunks: {
       chunks: "all",
-      // automaticNameDelimiter: "_",
+      // automaticNameDelimiter: "-",
       minSize: 30000,
       minChunks: 1,
       maxAsyncRequests: 5, // 最大的异步请求数量
@@ -45,30 +45,50 @@ export async function getConfig() {
           chunks: "async",
           name: "vendor-async",
           priority: 10, // 优先级
-          minChunks: 1
-          // enforce: true // 强制执行(即使没有达到大小)
+          minChunks: 1,
+          enforce: true // 强制执行(即使没有达到大小)
         },
+        // 将node_modules下 非异步加载的模块react打包到 vendor-initial-react.js 里
+        vendor_react_redux_antd: {
+          test: /node_modules\/(react|redux|antd|lodash)/,
+          chunks: "initial",
+          name: "vendor-initial-react-redux-antd",
+          priority: 20, // 优先级
+          minChunks: 1,
+          enforce: true // 强制执行(即使没有达到大小)
+        },
+
+        // 将node_modules下 非异步加载的模块react打包到 vendor-initial-react.js 里
+        vendor_rc: {
+          test: /node_modules\/(rc)/,
+          chunks: "initial",
+          name: "vendor-initial-rc",
+          priority: 20, // 优先级
+          minChunks: 1,
+          enforce: true // 强制执行(即使没有达到大小)
+        },
+
         // 将node_modules下 非异步加载的模块打包到 vendor-initial.js 里
         vendor_init: {
           test: /node_modules/,
           chunks: "initial",
           name: "vendor-initial",
           priority: 10, // 优先级
-          minChunks: 1
-          // enforce: true // 强制执行(即使没有达到大小)
+          minChunks: 1,
+          enforce: true // 强制执行(即使没有达到大小)
         },
         // 将 异步加载的模块打包到 commons-async.js 里
         commons_async: {
           name: "commons-async",
           chunks: "async",
-          minChunks: 1
-          // enforce: true // 强制执行(即使没有达到大小)
+          minChunks: 1,
+          enforce: true // 强制执行(即使没有达到大小)
         },
         commons_init: {
           name: "commons-init",
           chunks: "initial",
-          minChunks: 1
-          // enforce: true // 强制执行(即使没有达到大小)
+          minChunks: 1,
+          enforce: true // 强制执行(即使没有达到大小)
         }
       }
     },

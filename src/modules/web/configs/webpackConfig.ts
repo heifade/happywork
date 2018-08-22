@@ -128,16 +128,15 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
             chunks: item.chunks
           })
       )
-    ]
-    // performance: {
-    //   hints: "warning", // 有性能问题时输出警告
-    //   maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
-    //   maxEntrypointSize: 200 * 1024, // 最大入口文件大小，单位bytes
-    //   assetFilter: function(assetFilterName) {
-    //     // 过滤要检查的文件
-    //     return assetFilterName.endsWith(".css");
-    //   }
-    // }
+    ],
+    performance: {
+      hints: "warning", // 有性能问题时输出警告
+      maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
+      maxEntrypointSize: 500 * 1024, // 最大入口文件大小，单位bytes
+      assetFilter: function(assetFilterName) {
+        return true;
+      }
+    }
   };
 
   return {
