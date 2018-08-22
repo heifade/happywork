@@ -64,7 +64,8 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
             {
               loader: getToolsModulePath("css-loader"),
               options: {
-                modules: true
+                modules: true,
+                localIdentName: "[hash:base64:5]"
               }
             }
           ]
@@ -91,7 +92,7 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
               loader: getToolsModulePath("css-loader"),
               options: {
                 modules: true,
-                localIdentName: '[hash:base64:5]',
+                localIdentName: "[hash:base64:5]"
               }
             },
             {
