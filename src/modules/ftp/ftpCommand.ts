@@ -1,10 +1,14 @@
 import * as commander from "commander";
 import { resolve } from "path";
 import { Ftp } from "./ftp";
+import { des } from "../../utils/des";
+import chalk from "chalk";
 
 function toInt(v: string) {
   return parseInt(v);
 }
+
+let key = "&Y-$%tT543)=+-#,>/';#`~c";
 
 export function addSendFtpCommand() {
   commander
@@ -17,21 +21,22 @@ export function addSendFtpCommand() {
     .option("--password <n>", "ftp密码", "")
     .description("用指定目录覆盖ftp目录")
     .action(pars => {
-      let password = Buffer.from(pars.password, "base64")
-        .toString()
-        .substr(9);
-      let ftp = new Ftp(pars.host, 21, pars.user, password);
+      let passwordBase64 = Buffer.from(pars.password, "base64");
+      let password = des.decrypt(passwordBase64, key).toString();
+
+      let ftp = new Ftp(pars.host, pars.port, pars.user, password);
 
       let CWD = process.cwd();
       let path = resolve(CWD, pars.path);
       ftp.send(path);
     });
-}
 
-// // 加密密码
-// let password = "123456";
-// let time = (new Date()).getTime().toString();
-// time = time.substr(time.length - 9);
-// let b = new Buffer(time + password);
-// let s = b.toString('base64');
-// console.log(s);
+  commander
+    .command("encrypt")
+    .option("--text <n>", "需要加密的内容", "")
+    .description("用des算法加密文本内容，并用base64编码返回")
+    .action(pars => {
+      let enc = des.encrypt(Buffer.from(pars.text, "utf8"), key);
+      console.log(`加密结果为：${chalk.yellow(enc.toString("base64"))}`);
+    });
+}
