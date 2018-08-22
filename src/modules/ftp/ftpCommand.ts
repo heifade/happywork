@@ -17,7 +17,9 @@ export function addSendFtpCommand() {
     .option("--password <n>", "ftp密码", "")
     .description("用指定目录覆盖ftp目录")
     .action(pars => {
-      let password = (new Buffer(pars.password, "base64")).toString().substr(9);
+      let password = Buffer.from(pars.password, "base64")
+        .toString()
+        .substr(9);
       let ftp = new Ftp(pars.host, 21, pars.user, password);
 
       let CWD = process.cwd();
@@ -26,7 +28,6 @@ export function addSendFtpCommand() {
     });
 }
 
-
 // // 加密密码
 // let password = "123456";
 // let time = (new Date()).getTime().toString();
@@ -34,4 +35,3 @@ export function addSendFtpCommand() {
 // let b = new Buffer(time + password);
 // let s = b.toString('base64');
 // console.log(s);
-

@@ -133,7 +133,7 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
     performance: {
       hints: "warning", // 有性能问题时输出警告
       maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
-      maxEntrypointSize: 500 * 1024, // 最大入口文件大小，单位bytes
+      maxEntrypointSize: 1500 * 1024, // 最大入口文件大小，单位bytes
       assetFilter: function(assetFilterName) {
         return true;
       }
