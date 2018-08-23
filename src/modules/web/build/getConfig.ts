@@ -9,10 +9,10 @@ export async function getConfig() {
     minimize: webConfig.minimize,
     namedModules: false,
     namedChunks: false,
-    removeAvailableModules: true,
-    removeEmptyChunks: true,
-    mergeDuplicateChunks: true,
-    occurrenceOrder: true,
+    // removeAvailableModules: true,
+    // removeEmptyChunks: true,
+    // mergeDuplicateChunks: true,
+    // occurrenceOrder: true,
 
     minimizer: [
       new UglifyJsPlugin({
@@ -35,11 +35,11 @@ export async function getConfig() {
     ],
     splitChunks: {
       chunks: "all",
-      minSize: 30000,
-      minChunks: 1,
-      maxAsyncRequests: 5, // 最大的异步请求数量
-      maxInitialRequests: 5, // 最大的初始化请求数量
-      name: false,
+      // minSize: 30000,
+      // minChunks: 1,
+      // maxAsyncRequests: 5, // 最大的异步请求数量
+      // maxInitialRequests: 5, // 最大的初始化请求数量
+      name: true,
       cacheGroups: {
         // 将node_modules下 异步加载的模块打包到这里
         vendor_async: {
@@ -47,7 +47,6 @@ export async function getConfig() {
           chunks: "async",
           name: "vendor-async",
           priority: 6, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         // 将 异步加载的模块打包到这里
@@ -55,7 +54,6 @@ export async function getConfig() {
           chunks: "async",
           name: "commons-async",
           priority: 6, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         // 将node_modules下 非异步加载的模块打包到这里
@@ -64,7 +62,6 @@ export async function getConfig() {
           chunks: "initial",
           name: "vendor-react",
           priority: 5, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         // 将node_modules下 非异步加载的模块打包到这里
@@ -73,7 +70,6 @@ export async function getConfig() {
           chunks: "initial",
           name: "vendor-antd",
           priority: 5, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         // 将node_modules下 非异步加载的模块打包到这里
@@ -82,7 +78,6 @@ export async function getConfig() {
           chunks: "initial",
           name: "vendor-rc1",
           priority: 5, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         // 将node_modules下 非异步加载的模块打包到这里
@@ -91,7 +86,6 @@ export async function getConfig() {
           chunks: "initial",
           name: "vendor-rc2",
           priority: 4, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         // 将node_modules下 非异步加载的模块打包到这里
@@ -100,7 +94,6 @@ export async function getConfig() {
           chunks: "initial",
           name: "vendor-moment-lodash",
           priority: 4, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         // 将node_modules下 非异步加载的模块打包到这里
@@ -109,19 +102,16 @@ export async function getConfig() {
           chunks: "initial",
           name: "vendor-init",
           priority: 3, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         commons_init: {
           chunks: "initial",
           name: "commons-init",
           priority: 2, // 优先级
-          minChunks: 1,
           enforce: true // 强制执行(即使没有达到大小)
         },
         default: {
           priority: 1, // 优先级
-          minChunks: 1,
           reuseExistingChunk: true
         }
       }
