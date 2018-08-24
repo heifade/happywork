@@ -46,7 +46,9 @@ export async function getConfig() {
           name: "common-init",
           minChunks: 2, // 最小共用数
           priority: 19 // 优先级
-        }
+        },
+
+        ...webConfig.build.optimization.splitChunks.cacheGroups
       }
     }
     // runtimeChunk: {

@@ -31,16 +31,33 @@ export async function getWebConfig(file: string) {
   }
 
   if (webConfig.build) {
-    let build = webConfig.build;
+    let { build } = webConfig;
     build.sourceMap = ifNullOrUndefined(build.sourceMap, false);
     build.minimize = ifNullOrUndefined(build.minimize, true);
     build.dropConsole = ifNullOrUndefined(build.dropConsole, false);
+    build.optimization = ifNullOrUndefined(build.optimization, {
+      splitChunks: {
+        cacheGroups: {}
+      }
+    });
   } else {
     webConfig.build = {
       sourceMap: false,
       minimize: true,
-      dropConsole: false
+      dropConsole: false,
+      optimization: {
+        splitChunks: {
+          cacheGroups: {}
+        }
+      }
     };
+  }
+
+  if (webConfig.development) {
+    let { development } = webConfig;
+    development.port = ifNullOrUndefined(development.port, 8080);
+  } else {
+    webConfig.development = { port: 8080 };
   }
 
   return webConfig;

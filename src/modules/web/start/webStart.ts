@@ -9,16 +9,17 @@ export async function start() {
   let host = ip.address();
 
   let { webConfig, webpackConfig } = await getConfig(host);
+  let { port, proxy } = webConfig.development;
 
   let serverConfig: WebpackDevServer.Configuration = {
-    proxy: webConfig.proxy,
-    port: webConfig.port,
+    proxy,
+    port,
     disableHostCheck: true, // 远程可通过ip访问
     https: false, // 是否启用https
     clientLogLevel: "info", // 客户端日志级别
     compress: true, // gzip 压缩
     watchOptions: {
-      poll: 1000 // 监听文件变化频率单位毫秒
+      poll: 2000 // 监听文件变化频率单位毫秒
     }
     // stats: {
     //   colors: true
@@ -27,10 +28,10 @@ export async function start() {
 
   let compiler = webpack(webpackConfig);
 
-  let server = new WebpackDevServer(compiler as any, serverConfig);
+  let server = new WebpackDevServer(compiler, serverConfig);
 
-  server.listen(webConfig.port, "0.0.0.0", function() {
-    console.log(chalk.green(`Starting server on http://${host}:${webConfig.port}`));
-    openBrowser(`http://${host}:${webConfig.port}`);
+  server.listen(port, "0.0.0.0", function() {
+    console.log(chalk.green(`Starting server on http://${host}:${port}`));
+    openBrowser(`http://${host}:${port}`);
   });
 }

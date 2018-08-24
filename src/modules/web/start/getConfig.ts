@@ -9,7 +9,7 @@ export async function getConfig(host: string) {
 
   let entry = webpackConfig.entry as Entry;
 
-  let client = join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://${host}:${webConfig.port}`;
+  let client = join(getToolsModulePath("webpack-dev-server"), `./client`) + `?http://${host}:${webConfig.development.port}`;
 
   let resultEntry: any = {};
   for (let key of Object.keys(entry)) {
