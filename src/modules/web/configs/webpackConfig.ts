@@ -1,4 +1,4 @@
-import { Configuration, NamedModulesPlugin, HotModuleReplacementPlugin, ContextReplacementPlugin } from "webpack";
+import { Configuration, NamedModulesPlugin, HotModuleReplacementPlugin, ContextReplacementPlugin, HashedModuleIdsPlugin } from "webpack";
 import { resolve, join } from "path";
 import { getToolsModulePath } from "../../../utils/pathHelper";
 import { getBabelConfig } from "./babel/babel.config";
@@ -119,7 +119,8 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
         filename: "[name].[chunkhash:8].css",
         chunkFilename: "[id].[chunkhash:8].css"
       }),
-      new NamedModulesPlugin(),
+      // new NamedModulesPlugin(),
+      // new HashedModuleIdsPlugin(),
       new HotModuleReplacementPlugin(),
       ...webConfig.html.map(
         (item: any, index: number) =>
