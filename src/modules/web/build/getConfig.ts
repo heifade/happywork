@@ -6,19 +6,19 @@ export async function getConfig() {
   let { webConfig, webpackConfig } = await getWebpackConfig("production");
 
   webpackConfig.optimization = {
-    minimize: webConfig.minimize,
+    minimize: webConfig.build.minimize,
 
     minimizer: [
       new UglifyJsPlugin({
         test: [/\.js/],
         cache: true,
         parallel: true, // CPU 核数 - 1
-        sourceMap: webConfig.sourceMap,
+        sourceMap: webConfig.build.sourceMap,
         uglifyOptions: {
           keep_classnames: false,
           keep_fnames: false,
           compress: {
-            drop_console: webConfig.removeConsoleLog
+            drop_console: webConfig.build.dropConsole
           },
           output: {
             beautify: false

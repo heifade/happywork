@@ -26,7 +26,7 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
       filename: "[name].[hash:8].js",
       chunkFilename: "[name].[chunkhash:8].js"
     },
-    devtool: webConfig.sourceMap ? "source-map" : undefined,
+    devtool: webConfig.build.sourceMap ? "source-map" : false,
     resolve: {
       modules: [join(__dirname, "../../../../node_modules"), join(CWD, "./node_modules")],
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]

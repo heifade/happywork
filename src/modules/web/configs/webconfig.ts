@@ -1,6 +1,7 @@
 import { resolve } from "path";
 import { renameSync } from "fs";
 import { WebConfig } from "happywork-config";
+import { ifNullOrUndefined } from "../../../utils/utils";
 const tsToJs = require("../../../tools/tsToJs");
 import * as rimraf from "rimraf";
 
@@ -29,14 +30,18 @@ export async function getWebConfig(file: string) {
       break;
   }
 
-  if (webConfig.sourceMap === undefined) {
-    webConfig.sourceMap = false;
+  if (webConfig.build) {
+    let build = webConfig.build;
+    build.sourceMap = ifNullOrUndefined(build.sourceMap, false);
+    build.minimize = ifNullOrUndefined(build.minimize, true);
+    build.dropConsole = ifNullOrUndefined(build.dropConsole, false);
+  } else {
+    webConfig.build = {
+      sourceMap: false,
+      minimize: true,
+      dropConsole: false
+    };
   }
-  if (webConfig.minimize === undefined) {
-    webConfig.minimize = true;
-  }
-  if (webConfig.removeConsoleLog === undefined) {
-    webConfig.removeConsoleLog = true;
-  }
+
   return webConfig;
 }
