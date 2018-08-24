@@ -3,9 +3,9 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "noImplicitAny": true,
-    "target": "es6",
+    "target": "esnext",
     "jsx": "react",
-    "module": "commonjs",
+    "module": "esnext",
     // "types" : ["node"],
     "declaration": true,
     "sourceMap": true,

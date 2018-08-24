@@ -35,5 +35,8 @@ export async function getWebConfig(file: string) {
   if (webConfig.minimize === undefined) {
     webConfig.minimize = true;
   }
+  if (webConfig.removeConsoleLog === undefined) {
+    webConfig.removeConsoleLog = true;
+  }
   return webConfig;
 }

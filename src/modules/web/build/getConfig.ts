@@ -7,12 +7,6 @@ export async function getConfig() {
 
   webpackConfig.optimization = {
     minimize: webConfig.minimize,
-    namedModules: false,
-    namedChunks: false,
-    // removeAvailableModules: true,
-    // removeEmptyChunks: true,
-    // mergeDuplicateChunks: true,
-    // occurrenceOrder: true,
 
     minimizer: [
       new UglifyJsPlugin({
@@ -24,7 +18,7 @@ export async function getConfig() {
           keep_classnames: false,
           keep_fnames: false,
           compress: {
-            drop_console: true
+            drop_console: webConfig.removeConsoleLog
           },
           output: {
             beautify: false
@@ -34,85 +28,24 @@ export async function getConfig() {
       new OptimizeCSSAssetsPlugin({})
     ],
     splitChunks: {
-      chunks: "all",
-      // minSize: 30000,
-      // minChunks: 1,
-      // maxAsyncRequests: 5, // 最大的异步请求数量
-      // maxInitialRequests: 5, // 最大的初始化请求数量
-      name: true,
+      maxAsyncRequests: 5, // 最大的异步请求数量
+      maxInitialRequests: 3, // 最大的初始化请求数量
+
       cacheGroups: {
-        // 将node_modules下 异步加载的模块打包到这里
-        vendor_async: {
-          test: /node_modules/,
-          chunks: "async",
-          name: "vendor-async",
-          priority: 6, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
-        },
-        // 将 异步加载的模块打包到这里
-        commons_async: {
-          chunks: "async",
-          name: "commons-async",
-          priority: 6, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
-        },
-        // 将node_modules下 非异步加载的模块打包到这里
-        vendor_react: {
-          test: /node_modules[\/\\](react)/,
-          chunks: "initial",
-          name: "vendor-react",
-          priority: 5, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
-        },
-        // 将node_modules下 非异步加载的模块打包到这里
-        vendor_antd: {
-          test: /node_modules[\/\\](antd)/,
-          chunks: "initial",
-          name: "vendor-antd",
-          priority: 5, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
-        },
-        // 将node_modules下 非异步加载的模块打包到这里
-        vendor_rc1: {
-          test: /node_modules[\/\\](rc-calendar|rc-form|rc-pagination|rc-table|rc-select)/,
-          chunks: "initial",
-          name: "vendor-rc1",
-          priority: 5, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
-        },
-        // 将node_modules下 非异步加载的模块打包到这里
-        vendor_rc2: {
-          test: /node_modules[\/\\](rc)/,
-          chunks: "initial",
-          name: "vendor-rc2",
-          priority: 4, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
-        },
-        // 将node_modules下 非异步加载的模块打包到这里
-        vendor_moment_lodash: {
-          test: /node_modules[\/\\](moment|lodash)/,
-          chunks: "initial",
-          name: "vendor-moment-lodash",
-          priority: 4, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
-        },
-        // 将node_modules下 非异步加载的模块打包到这里
+        // 把node_modules中 需要同步加载的内容打包进vendor-init.js文件
         vendor_init: {
-          test: /node_modules/,
+          test: /[\\/]node_modules[\\/]/,
           chunks: "initial",
           name: "vendor-init",
-          priority: 3, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
+          priority: 20 // 优先级
         },
-        commons_init: {
+
+        // 把非node_modules中 需要同步加载的内容打包进common-init.js文件
+        common_init: {
           chunks: "initial",
-          name: "commons-init",
-          priority: 2, // 优先级
-          enforce: true // 强制执行(即使没有达到大小)
-        },
-        default: {
-          priority: 1, // 优先级
-          reuseExistingChunk: true
+          name: "common-init",
+          minChunks: 2, // 最小共用数
+          priority: 19 // 优先级
         }
       }
     }
