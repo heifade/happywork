@@ -5,6 +5,7 @@ import { ProgressBar } from "../../tools/progressBar";
 interface FileDir {
   type: "file" | "dir";
   name: string;
+  size: number;
 }
 
 export class Ftp {
@@ -14,7 +15,7 @@ export class Ftp {
   private sendProgressBar = new ProgressBar("正在上传", 100);
 
   constructor(host: string, port: number = 21, user: string, password: string) {
-    this.option = { host, port, user, password };
+    this.option = { host, port, user, password, connTimeout: 600 * 1000, pasvTimeout: 600 * 1000, keepalive: 10000 };
   }
 
   public send(path: string) {
@@ -25,6 +26,7 @@ export class Ftp {
         })
         .catch((e: Error) => {
           this.client.end();
+          this.client.destroy();
           throw e;
         });
     });
@@ -71,16 +73,19 @@ export class Ftp {
     let subPathList = readdirSync(path, { encoding: "utf8" });
     subPathList.map((subPath, index) => {
       subPath = `${path}/${subPath}`;
-      if (statSync(subPath).isDirectory()) {
+      let stat = statSync(subPath);
+      if (stat.isDirectory()) {
         filedirList.push({
           type: "dir",
-          name: subPath
+          name: subPath,
+          size: 0
         });
         this.getSourceFiles(subPath, filedirList);
       } else {
         filedirList.push({
           type: "file",
-          name: subPath
+          name: subPath,
+          size: stat.size
         });
       }
     });
@@ -119,6 +124,20 @@ export class Ftp {
     });
   }
 
+  private async checkCopyFileSuccessed(sourceFile: FileDir) {
+    try {
+      let list = await this.getList(sourceFile.name);
+      if (list && list.length > 0) {
+        let item = list[0];
+        return item.name === sourceFile.name && Number(item.size) == sourceFile.size;
+      } else {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  }
+
   private async sendPath(path: string) {
     await this.clearPath(".");
 
@@ -129,6 +148,10 @@ export class Ftp {
         await this.mkdir(item.name);
       } else {
         await this.copyfile(`${path}/${item.name}`, item.name);
+        let count = 5;
+        while (!(await this.checkCopyFileSuccessed(item)) && count-- > 0) {
+          await this.copyfile(`${path}/${item.name}`, item.name);
+        }
       }
       this.sendProgressBar.render({ completed: i + 1, total: fileList.length });
     }
