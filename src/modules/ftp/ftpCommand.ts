@@ -28,7 +28,8 @@ export function addSendFtpCommand() {
 
       let CWD = process.cwd();
       let path = resolve(CWD, pars.path);
-      ftp.send(path);
+
+      ftp.send(path, pars.ftppath.trim());
     });
 
   commander

@@ -1,71 +1,35 @@
-import * as Client from "ftp";
 import { readdirSync, statSync } from "fs-extra";
 import { ProgressBar } from "../../tools/progressBar";
+import chalk from "chalk";
+import { FtpHelper } from "./ftpHelper";
 
-interface FileDir {
+export interface FileDir {
   type: "file" | "dir";
   name: string;
   size: number;
 }
 
 export class Ftp {
-  private client = new Client();
   private option: any = null;
-  private clearProgressBar = new ProgressBar("正在清理", 100);
   private sendProgressBar = new ProgressBar("正在上传", 100);
+  private ftpHelper: FtpHelper;
 
   constructor(host: string, port: number = 21, user: string, password: string) {
     this.option = { host, port, user, password, connTimeout: 600 * 1000, pasvTimeout: 600 * 1000, keepalive: 10000 };
+
+    this.ftpHelper = new FtpHelper();
   }
 
-  public send(path: string) {
-    this.client.on("ready", () => {
-      this.sendPath(path)
+  public send(path: string, ftpPath: string) {
+    this.ftpHelper.connection(this.option).then(() => {
+      this.sendPath(path, ftpPath)
         .then(() => {
-          this.client.end();
+          this.ftpHelper.end();
         })
         .catch((e: Error) => {
-          this.client.end();
-          this.client.destroy();
+          this.ftpHelper.end();
           throw e;
         });
-    });
-    this.client.connect(this.option);
-  }
-
-  private getList(path: string): Promise<Client.ListingElement[]> {
-    return new Promise((resolve, reject) => {
-      this.client.list(path, (error: Error, list: Client.ListingElement[]) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(list);
-      });
-    });
-  }
-
-  private rmdir(path: string) {
-    return new Promise((resolve, reject) => {
-      this.client.rmdir(path, true, (error: Error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
-    });
-  }
-
-  private deleteFile(file: string) {
-    return new Promise((resolve, reject) => {
-      this.client.delete(file, (error: Error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
     });
   }
 
@@ -100,77 +64,30 @@ export class Ftp {
     return files;
   }
 
-  private mkdir(dir: string) {
-    return new Promise((resolve, reject) => {
-      this.client.mkdir(dir, (error: Error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
-    });
-  }
-
-  private copyfile(sourceFile: string, targetFile: string) {
-    return new Promise((resolve, reject) => {
-      this.client.put(sourceFile, targetFile, (error: Error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
-    });
-  }
-
-  private async checkCopyFileSuccessed(sourceFile: FileDir) {
-    try {
-      let list = await this.getList(sourceFile.name);
-      if (list && list.length > 0) {
-        let item = list[0];
-        return item.name === sourceFile.name && Number(item.size) == sourceFile.size;
-      } else {
-        return false;
+  private async sendPath(path: string, ftpPath: string) {
+    if (ftpPath) {
+      if (!(await this.ftpHelper.checkExists(ftpPath))) {
+        console.log(chalk.red(`远程目录"${ftpPath}"不存在，请先创建目录后再试！`));
+        return;
       }
-    } catch {
-      return false;
     }
-  }
 
-  private async sendPath(path: string) {
-    await this.clearPath(".");
-
+    await this.ftpHelper.clearPath(ftpPath ? `./${ftpPath}` : ".");
     let fileList = this.getSourceFilesSync(path);
+    ftpPath = ftpPath ? `${ftpPath}/` : "";
+
     for (let i = 0; i < fileList.length; i++) {
       let item = fileList[i];
       if (item.type === "dir") {
-        await this.mkdir(item.name);
+        await this.ftpHelper.mkdir(`${ftpPath}${item.name}`);
       } else {
-        await this.copyfile(`${path}/${item.name}`, item.name);
+        await this.ftpHelper.copyfile(`${path}/${item.name}`, `${ftpPath}${item.name}`);
         let count = 5;
-        while (!(await this.checkCopyFileSuccessed(item)) && count-- > 0) {
-          await this.copyfile(`${path}/${item.name}`, item.name);
+        while (!(await this.ftpHelper.checkCopyFileSuccessed(item)) && count-- > 0) {
+          await this.ftpHelper.copyfile(`${path}/${item.name}`, `${ftpPath}${item.name}`);
         }
       }
       this.sendProgressBar.render({ completed: i + 1, total: fileList.length });
-    }
-  }
-
-  private async clearPath(path: string) {
-    let list = await this.getList(path);
-    for (let i = 0; i < list.length; i++) {
-      let item = list[i];
-      switch (item.type) {
-        case "-":
-          await this.deleteFile(`${path}/${item.name}`);
-          break;
-        case "d":
-          await this.rmdir(`${path}/${item.name}`);
-          break;
-      }
-
-      this.clearProgressBar.render({ completed: i + 1, total: list.length });
     }
   }
 }
