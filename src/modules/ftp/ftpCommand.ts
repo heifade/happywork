@@ -1,9 +1,8 @@
 import * as commander from "commander";
 import { resolve } from "path";
-// import { Ftp } from "./ftp";
 import { des } from "../../utils/des";
 import chalk from "chalk";
-let ftp = require("basic-ftp");
+import { upload } from "./ftpUpload";
 
 function toInt(v: string) {
   return parseInt(v);
@@ -23,18 +22,14 @@ export function addSendFtpCommand() {
     .description("用指定目录覆盖ftp目录")
     .action(pars => {
       let passwordBase64 = Buffer.from(pars.password, "base64");
-      pars.password = des.decrypt(passwordBase64, key).toString();
+      let password = des.decrypt(passwordBase64, key).toString();
 
       let CWD = process.cwd();
-      pars.path = resolve(CWD, pars.path);
+      let sourcePath = resolve(CWD, pars.path);
 
-      uploadDir(pars)
-        .then(() => {
-          console.log(chalk.green("上传完成!"));
-        })
-        .catch(e => {
-          console.log(chalk.red("上传失败"), e);
-        });
+      upload({ host: pars.host, user: pars.user, password, sourcePath, ftpPath: pars.ftppath })
+        .then(() => {})
+        .catch(e => {});
     });
 
   commander
@@ -45,26 +40,4 @@ export function addSendFtpCommand() {
       let enc = des.encrypt(Buffer.from(pars.text, "utf8"), key);
       console.log(`加密结果为：${chalk.yellow(enc.toString("base64"))}`);
     });
-}
-
-async function uploadDir(pars: any) {
-  let client = new ftp.Client(600 * 1000);
-  await client.access({
-    host: pars.host,
-    user: pars.user,
-    password: pars.password,
-    secure: false
-  });
-
-  client.trackProgress((info: any) => {
-    console.log(info.name, info.type, info.bytes, info.bytesOverall);
-  });
-
-  await client.ensureDir(pars.ftppath);
-  await client.clearWorkingDir();
-  await client.uploadDir(pars.path);
-
-  client.trackProgress();
-
-  await client.close();
 }
