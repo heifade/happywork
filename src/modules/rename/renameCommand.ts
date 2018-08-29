@@ -1,7 +1,7 @@
 import * as commander from "commander";
 import { resolve, join, extname, dirname } from "path";
 import { readdirSync, lstatSync, renameSync } from "fs";
-import { padStart } from "lodash";
+import { padStart } from "../../utils/utils";
 import { v4 as uuid } from "uuid";
 import * as ProgressBar from "progress";
 
