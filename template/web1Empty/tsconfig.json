@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "target": "es6",
+    "jsx": "react",
+    "module": "esnext",
+    // "types" : ["node"],
+    "declaration": true,
+    "sourceMap": true,
+    "removeComments": false
+  }
+}
