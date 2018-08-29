@@ -5,7 +5,7 @@ node_js:
 script:
   - npm run build
 after_script:
-
+  - npm run zipTemplate
 
 cache:
   directories:
