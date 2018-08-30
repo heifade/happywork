@@ -21,6 +21,8 @@ commander
 
 commander.command("run [name]", "运行子命令");
 
+commander.command("new", "运行子命令");
+
 // // 未定义子命令时提示帮忙
 // commander.on("command:*", function() {
 //   commander.help();
