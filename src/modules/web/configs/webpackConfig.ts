@@ -29,7 +29,8 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
     devtool: webConfig.build.sourceMap ? "source-map" : false,
     resolve: {
       modules: [join(__dirname, "../../../../node_modules"), join(CWD, "./node_modules")],
-      extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
+      extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
+      alias: webConfig.alias
     },
     target: "web",
     node: ["child_process", "fs", "module", "net"].reduce((last, curr) => Object.assign({}, last, { [curr]: "empty" }), {}),
