@@ -32,21 +32,21 @@ export async function getConfig() {
       maxInitialRequests: 3, // 最大的初始化请求数量
 
       cacheGroups: {
-        // 把node_modules中 需要同步加载的内容打包进vendor-init.js文件
-        vendor_init: {
-          test: /[\\/]node_modules[\\/]/,
-          chunks: "initial",
-          name: "vendor-init",
-          priority: 20 // 优先级
-        },
+        // // 把node_modules中 需要同步加载的内容打包进vendor-init.js文件
+        // vendor_init: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   chunks: "initial",
+        //   name: "vendor-init",
+        //   priority: 20 // 优先级
+        // },
 
-        // 把非node_modules中 需要同步加载的内容打包进common-init.js文件
-        common_init: {
-          chunks: "initial",
-          name: "common-init",
-          minChunks: 2, // 最小共用数
-          priority: 19 // 优先级
-        },
+        // // 把非node_modules中 需要同步加载的内容打包进common-init.js文件
+        // common_init: {
+        //   chunks: "initial",
+        //   name: "common-init",
+        //   minChunks: 2, // 最小共用数
+        //   priority: 19 // 优先级
+        // },
 
         ...webConfig.build.optimization.splitChunks.cacheGroups
       }

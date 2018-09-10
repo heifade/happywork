@@ -120,7 +120,6 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
         filename: "[name].[chunkhash:8].css",
         chunkFilename: "[id].[chunkhash:8].css"
       }),
-      // new NamedModulesPlugin(),
       // new HashedModuleIdsPlugin(),
       new HotModuleReplacementPlugin(),
       ...webConfig.html.map(
@@ -133,7 +132,8 @@ export async function getWebpackConfig(mode: "development" | "production"): Prom
           })
       ),
       new ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn|en-nz/)
-    ],
+    ].concat(webConfig.build.minimize ? [] : [new NamedModulesPlugin()]),
+
     performance: {
       hints: "warning", // 有性能问题时输出警告
       maxAssetSize: 500 * 1024, // 最大文件的大小，单位bytes
