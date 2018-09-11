@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { getToolsModulePath } from "../../../../utils/pathHelper";
+const { getToolsModulePath } = require("dynamic-load-js");
 
 export function getBabelConfig(modules: any) {
   return {

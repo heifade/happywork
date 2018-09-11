@@ -1,22 +1,39 @@
-import { resolve } from "path";
-import { renameSync } from "fs";
+import { resolve as resolvePath } from "path";
+import * as rimraf from "rimraf";
+const { loadJs } = require("dynamic-load-js");
+
+import { spawn } from "child_process";
 import { WebConfig } from "happywork-config";
 import { ifNullOrUndefined } from "../../../utils/utils";
-const tsToJs = require("../../../tools/tsToJs");
-import * as rimraf from "rimraf";
 
 export async function getWebConfig(file: string) {
+  return new Promise<WebConfig>((resolve, reject) => {
+    let CWD = process.cwd();
+
+    let webConfigTs = resolvePath(CWD, "./webConfig.ts");
+    let tempConfigFile = resolvePath(CWD, `./webConfig.js`);
+
+    let c = spawn(`tsc`, [webConfigTs, "--module", "commonjs"]);
+
+
+    c.stderr.on("data", data => {
+      reject(data);
+      console.log("error", data);
+    });
+    c.stdout.on("end", () => {
+
+      readConfig(tempConfigFile).then(webConfig => {
+        resolve(webConfig);
+        rimraf.sync(tempConfigFile);
+      });
+    });
+  });
+}
+
+async function readConfig(tempConfigFile: string) {
   let CWD = process.cwd();
-  let tempConfigFilePath = resolve(CWD, `./temp_${new Date().getTime()}`);
-  let tempConfigFile = resolve(tempConfigFilePath, "webConfig.js");
-  await tsToJs(file, tempConfigFilePath);
-
-  let tempConfigFile2 = resolve(CWD, `./temp_${new Date().getTime()}.js`);
-  renameSync(tempConfigFile, tempConfigFile2);
-
-  let config = require(tempConfigFile2).default;
-  rimraf.sync(tempConfigFilePath);
-  rimraf.sync(tempConfigFile2);
+  let webConfigTs = resolvePath(CWD, tempConfigFile);
+  let config = loadJs(webConfigTs).default;
 
   let webConfig: WebConfig;
 
