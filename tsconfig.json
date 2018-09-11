@@ -6,10 +6,7 @@
     "target": "esnext",
     "jsx": "react",
     "module": "esnext",
-    // "types" : ["node"],
     "declaration": true,
     "sourceMap": true
-  },
-  // "exclude": ["node_modules"]
+  }
 }
-
