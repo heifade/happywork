@@ -1,6 +1,6 @@
 {
   "name": "happywork",
-  "version": "1.0.0-beta23",
+  "version": "1.0.0-beta24",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -53,7 +53,11 @@
     "url-loader": "^1.0.1",
     "uuid": "^3.3.2",
     "webpack": "^4.17.1",
-    "webpack-dev-server": "^3.1.5"
+    "webpack-dev-server": "^3.1.5",
+    "gulp": "^3.9.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-rollup": "^2.16.2",
+    "gulp-typescript": "^5.0.0-alpha.3"
   },
   "devDependencies": {
     "@types/html-webpack-plugin": "^3.2.0",
@@ -67,10 +71,6 @@
     "@types/uglifyjs-webpack-plugin": "^1.1.0",
     "@types/uuid": "^3.4.3",
     "@types/webpack": "^4.4.10",
-    "@types/webpack-dev-server": "^2.9.4",
-    "gulp": "^3.9.1",
-    "gulp-minify": "^3.1.0",
-    "gulp-rollup": "^2.16.2",
-    "gulp-typescript": "^5.0.0-alpha.3"
+    "@types/webpack-dev-server": "^2.9.4"
   }
 }

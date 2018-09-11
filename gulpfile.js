@@ -1,6 +1,6 @@
 const gulp = require("gulp");
 const rimraf = require("rimraf");
-const toToJs = require("./src/tools/tsToJs");
+const tsToJs = require("./src/tools/tsToJs");
 const minify = require("gulp-minify");
 
 function clean() {
@@ -9,7 +9,7 @@ function clean() {
 }
 
 async function build() {
-  await toToJs("src/**/*.ts", "dist");
+  await tsToJs("src/**/*.ts", "dist");
 
   await gulp
     .src("src/**/*.js")
