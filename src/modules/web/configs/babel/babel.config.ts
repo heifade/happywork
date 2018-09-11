@@ -1,7 +1,7 @@
 import { resolve } from "path";
-const { getToolsModulePath } = require("dynamic-load-js");
+import { getToolsModulePath } from "../../../../utils/pathHelper";
 
-export function getBabelConfig(modules: any) {
+export function getBabelConfig(modules: boolean) {
   return {
     presets: [
       getToolsModulePath("babel-preset-react"),

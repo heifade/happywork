@@ -3,5 +3,5 @@ import { addStartCommand } from "./start/startCommand";
 
 export function addCommand() {
   addBuildCommand();
-  // addStartCommand();
+  addStartCommand();
 }

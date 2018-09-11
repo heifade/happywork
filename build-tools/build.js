@@ -1,38 +1,25 @@
-let webpack = require("webpack");
-let webpackConfig = require("./webpack.config");
-let chalk = require("chalk");
+const { spawn } = require("child_process");
+const { resolve } = require("path");
+const rimraf = require("rimraf");
+const { stdout } = require("single-line-log");
+const chalk = require("chalk");
 
 function build() {
-  webpack(webpackConfig, (err, stats) => {
-    if (err) {
-      console.error(err.stack || err);
-      // if (err.details) {
-      //   console.error(err.details);
-      // }
-      return;
+  let client = spawn(`tsc`, ["--project", `${resolve(__dirname)}`], {
+    encoding: "utf-8",
+    stdio: ["inherit", "inherit", "inherit"]
+  });
+
+  client.on("exit", code => {
+    if (code === 0) {
+      stdout(chalk.green("构建成功。\n"));
+    } else {
+      stdout(chalk.red("构建失败！\n"));
     }
-    const info = stats.toJson();
-    if (stats.hasErrors()) {
-      info.errors.map(e => {
-        console.log(chalk.red(e));
-      });
-    }
-    if (stats.hasWarnings()) {
-      info.warnings.map(e => {
-        console.log(chalk.yellow(e));
-      });
-    }
-    const buildInfo = stats.toString({
-      colors: true,
-      children: true,
-      chunks: false,
-      modules: false,
-      chunkModules: false,
-      hash: false,
-      version: false
-    });
-    console.log(buildInfo);
   });
 }
 
+stdout(chalk.green("正在清理...\n"));
+rimraf.sync(`${resolve(__dirname, "../dist")}`);
+stdout(chalk.green("正在构建...\n"));
 build();

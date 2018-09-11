@@ -1,6 +1,5 @@
 import { resolve as resolvePath } from "path";
 import * as rimraf from "rimraf";
-const { loadJs } = require("dynamic-load-js");
 
 import { spawn } from "child_process";
 import { WebConfig } from "happywork-config";
@@ -13,19 +12,17 @@ export async function getWebConfig(file: string) {
     let webConfigTs = resolvePath(CWD, "./webConfig.ts");
     let tempConfigFile = resolvePath(CWD, `./webConfig.js`);
 
-    let c = spawn(`tsc`, [webConfigTs, "--module", "commonjs"]);
+    let client = spawn(`tsc`, [webConfigTs, "--module", "commonjs"]);
 
-
-    c.stderr.on("data", data => {
-      reject(data);
-      console.log("error", data);
-    });
-    c.stdout.on("end", () => {
-
-      readConfig(tempConfigFile).then(webConfig => {
-        resolve(webConfig);
-        rimraf.sync(tempConfigFile);
-      });
+    client.on("exit", code => {
+      if (code === 0) {
+        readConfig(tempConfigFile).then(webConfig => {
+          resolve(webConfig);
+          rimraf.sync(tempConfigFile);
+        });
+      } else {
+        reject();
+      }
     });
   });
 }
@@ -33,7 +30,7 @@ export async function getWebConfig(file: string) {
 async function readConfig(tempConfigFile: string) {
   let CWD = process.cwd();
   let webConfigTs = resolvePath(CWD, tempConfigFile);
-  let config = loadJs(webConfigTs).default;
+  let config = require(webConfigTs).default;
 
   let webConfig: WebConfig;
 

@@ -1,6 +1,6 @@
 import { Configuration, NamedModulesPlugin, HotModuleReplacementPlugin, ContextReplacementPlugin, HashedModuleIdsPlugin } from "webpack";
 import { resolve, join } from "path";
-const { getToolsModulePath } = require("dynamic-load-js");
+import { getToolsModulePath } from "../../../utils/pathHelper";
 import { getBabelConfig } from "./babel/babel.config";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
@@ -12,7 +12,8 @@ interface ReturnData {
   webConfig: WebConfig;
 }
 
-export async function getWebpackConfig(mode: "development" | "production") {
+export async function getWebpackConfig(mode: "development" | "production"): Promise<ReturnData> {
+// export async function getWebpackConfig(mode): Promise<ReturnData> {
   let webConfig: WebConfig = await getWebConfig(resolve(process.cwd(), "./webConfig.ts"));
 
   let babelConfig = getBabelConfig(false);
@@ -115,24 +116,24 @@ export async function getWebpackConfig(mode: "development" | "production") {
       ]
     },
 
-    // plugins: [
-    //   new MiniCssExtractPlugin({
-    //     filename: "[name].[chunkhash:8].css",
-    //     chunkFilename: "[id].[chunkhash:8].css"
-    //   }),
-    //   // new HashedModuleIdsPlugin(),
-    //   new HotModuleReplacementPlugin(),
-    //   ...webConfig.html.map(
-    //     (item: any, index: number) =>
-    //       new HtmlWebpackPlugin({
-    //         filename: item.filename,
-    //         title: item.title,
-    //         template: item.template,
-    //         chunks: item.chunks
-    //       })
-    //   ),
-    //   new ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn|en-nz/)
-    // ].concat(webConfig.build.minimize ? [] : [new NamedModulesPlugin()]),
+    plugins: [
+      new MiniCssExtractPlugin({
+        filename: "[name].[chunkhash:8].css",
+        chunkFilename: "[id].[chunkhash:8].css"
+      }),
+      // new HashedModuleIdsPlugin(),
+      new HotModuleReplacementPlugin(),
+      ...webConfig.html.map(
+        (item: any, index: number) =>
+          new HtmlWebpackPlugin({
+            filename: item.filename,
+            title: item.title,
+            template: item.template,
+            chunks: item.chunks
+          })
+      ),
+      new ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn|en-nz/)
+    ].concat(webConfig.build.minimize ? [] : [new NamedModulesPlugin()]),
 
     performance: {
       hints: "warning", // 有性能问题时输出警告
