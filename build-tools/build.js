@@ -7,7 +7,8 @@ const chalk = require("chalk");
 function build() {
   let client = spawn(`tsc`, ["--project", `${resolve(__dirname)}`], {
     encoding: "utf-8",
-    stdio: ["inherit", "inherit", "inherit"]
+    stdio: ["inherit", "inherit", "inherit"],
+    shell: true,
   });
 
   client.on("exit", code => {

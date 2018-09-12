@@ -1,10 +1,10 @@
 {
   "name": "happywork",
-  "version": "1.0.0-beta27",
+  "version": "1.0.0-beta28",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
-    "happywork": "./bin/index.js"
+    "happywork": "./bin/happywork.js"
   },
   "files": [
     "bin",

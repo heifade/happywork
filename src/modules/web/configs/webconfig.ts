@@ -12,7 +12,7 @@ export async function getWebConfig(file: string) {
     let webConfigTs = resolvePath(CWD, "./webConfig.ts");
     let tempConfigFile = resolvePath(CWD, `./webConfig.js`);
 
-    let client = spawn(`tsc`, [webConfigTs, "--module", "commonjs"]);
+    let client = spawn(`tsc`, [webConfigTs, "--module", "commonjs"], { shell: true });
 
     client.on("exit", code => {
       if (code === 0) {
