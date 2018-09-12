@@ -13,7 +13,6 @@ interface ReturnData {
 }
 
 export async function getWebpackConfig(mode: "development" | "production"): Promise<ReturnData> {
-// export async function getWebpackConfig(mode): Promise<ReturnData> {
   let webConfig: WebConfig = await getWebConfig(resolve(process.cwd(), "./webConfig.ts"));
 
   let babelConfig = getBabelConfig(false);
