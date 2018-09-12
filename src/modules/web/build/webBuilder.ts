@@ -17,9 +17,7 @@ export async function build() {
   webpack(webpackConfig, (err, stats) => {
     if (err) {
       console.error(err.stack || err);
-      // if (err.details) {
-      //   console.error(err.details);
-      // }
+      process.exit(1);
       return;
     }
     const info = stats.toJson();
@@ -27,6 +25,7 @@ export async function build() {
       info.errors.map((e: string) => {
         console.log(chalk.red(e));
       });
+      process.exit(1);
     }
     if (stats.hasWarnings()) {
       info.warnings.map((e: string) => {
