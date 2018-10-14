@@ -1,8 +1,9 @@
 import * as commander from "commander";
 import { resolve } from "path";
 import { des } from "../../utils/des";
-import chalk from "chalk";
 import { upload } from "./ftpUpload";
+
+const { chalk } = require("../../../dist-core")
 
 function toInt(v: string) {
   return parseInt(v);

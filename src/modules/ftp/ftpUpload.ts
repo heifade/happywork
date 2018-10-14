@@ -1,6 +1,4 @@
-import { stdout } from "single-line-log";
-import chalk from "chalk";
-let ftp = require("basic-ftp");
+const { chalk, ftp, singleLineLog } = require("../../../dist-core");
 
 export interface UploadProps {
   host: string;
@@ -23,7 +21,7 @@ export async function upload(pars: UploadProps) {
     });
 
     client.trackProgress((info: any) => {
-      stdout(`正在上传文件:${info.name}, 已上传:${info.bytesOverall}\n`);
+      singleLineLog(`正在上传文件:${info.name}, 已上传:${info.bytesOverall}\n`);
     });
 
     await client.ensureDir(pars.ftpPath);
@@ -32,9 +30,9 @@ export async function upload(pars: UploadProps) {
 
     client.trackProgress();
 
-    stdout(chalk.green("上传完成!") + "\n");
+    singleLineLog(chalk.green("上传完成!") + "\n");
   } catch (err) {
-    stdout(chalk.red("上传失败！", err) + "\n");
+    singleLineLog(chalk.red("上传失败！", err) + "\n");
   }
 
   await client.close();

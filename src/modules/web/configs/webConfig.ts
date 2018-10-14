@@ -1,6 +1,6 @@
 import { resolve as resolvePath } from "path";
-import * as rimraf from "rimraf";
 
+const { rm } = require("../../../../dist-core");
 import { spawn } from "child_process";
 import { WebConfig } from "happywork-config";
 import { ifNullOrUndefined } from "../../../utils/utils";
@@ -20,7 +20,7 @@ export async function getWebConfig(file: string) {
       if (code === 0) {
         readConfig(tempConfigFile).then(webConfig => {
           resolve(webConfig);
-          rimraf.sync(tempConfigFile);
+          rm(tempConfigFile);
         });
       } else {
         reject();

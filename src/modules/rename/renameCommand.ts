@@ -2,8 +2,7 @@ import * as commander from "commander";
 import { resolve, join, extname, dirname } from "path";
 import { readdirSync, lstatSync, renameSync } from "fs";
 import { padStart } from "../../utils/utils";
-import { v4 as uuid } from "uuid";
-import * as ProgressBar from "progress";
+const { uuid, ProgressBar } = require("../../../dist-core/index");
 
 function toInt(v: string) {
   return parseInt(v);

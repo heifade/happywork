@@ -1,14 +1,14 @@
 import * as webpack from "webpack";
 import { getConfig } from "./getConfig";
-import chalk from "chalk";
-import * as rimraf from "rimraf";
+
+const { chalk, rm} = require("../../../../dist-core");
 
 export async function build() {
   let { webConfig, webpackConfig } = await getConfig();
 
   // 删除输出目录
   if (webpackConfig.output.path) {
-    rimraf.sync(webpackConfig.output.path);
+    rm(webpackConfig.output.path);
   }
 
   // 删除构建临时目录

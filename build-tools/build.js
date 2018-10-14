@@ -3,6 +3,7 @@ const { resolve } = require("path");
 const rimraf = require("rimraf");
 const { stdout } = require("single-line-log");
 const chalk = require("chalk");
+const webpack = require("webpack");
 
 function build() {
   let client = spawn(`tsc`, ["--project", `${resolve(__dirname)}`], {
@@ -19,6 +20,41 @@ function build() {
     }
   });
 }
+
+function buildCore() {
+  const config = require(resolve(__dirname, '../core/webpackConfig.js'));
+  webpack(config, (err, stats) => {
+    if (err) {
+      console.error(err.stack || err);
+      process.exit(1);
+      return;
+    }
+    const info = stats.toJson();
+    if (stats.hasErrors()) {
+      info.errors.map((e) => {
+        console.log(chalk.red(e));
+      });
+      process.exit(1);
+    }
+    if (stats.hasWarnings()) {
+      info.warnings.map((e) => {
+        console.log(chalk.yellow(e));
+      });
+    }
+    const buildInfo = stats.toString({
+      colors: true,
+      children: true,
+      chunks: false,
+      modules: false,
+      chunkModules: false,
+      hash: false,
+      version: false
+    });
+    console.log(buildInfo);
+  });
+}
+
+buildCore();
 
 stdout(chalk.green("正在清理...\n"));
 rimraf.sync(`${resolve(__dirname, "../dist")}`);

@@ -1,12 +1,11 @@
-import * as ip from "ip";
 import * as WebpackDevServer from "webpack-dev-server";
-import chalk from "chalk";
+const { chalk, address, openBrowser } = require("../../../../dist-core");
 import * as webpack from "webpack";
 import { getConfig } from "./getConfig";
-const openBrowser = require("open");
 
 export async function start() {
-  let host = ip.address();
+  let host = address();
+
 
   let { webConfig, webpackConfig } = await getConfig(host);
   let { port, proxy } = webConfig.development;
@@ -30,7 +29,7 @@ export async function start() {
 
   let server = new WebpackDevServer(compiler, serverConfig);
 
-  server.listen(port, "0.0.0.0", function() {
+  server.listen(port, "0.0.0.0", function () {
     console.log(chalk.green(`Starting server on http://${host}:${port}`));
     openBrowser(`http://${host}:${port}`);
   });
