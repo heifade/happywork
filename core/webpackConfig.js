@@ -12,12 +12,12 @@ const config = {
   },
   target: "node",
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
+    extensions: [".ts", ".js", ".json"]
   },
   module: {
     rules: [
       {
-        test: /\.ts?$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
         use: [
           {
@@ -30,7 +30,7 @@ const config = {
         ]
       },
       {
-        test: /\.js?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: [
           {

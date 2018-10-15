@@ -1,11 +1,11 @@
-import { command } from "commander";
+const { commander } = require("../../../../dist-core");
 import { build } from "./webBuilder";
 
 export function addBuildCommand() {
-  command("webbuild")
+  commander.command("webbuild")
     //.option("--step <n>", "步进", toInt, 2)
     .description("构建Web项目")
-    .action(pars => {
+    .action((pars: any) => {
       build().then();
     });
 }

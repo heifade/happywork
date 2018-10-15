@@ -1,6 +1,6 @@
 {
   "name": "happywork",
-  "version": "1.0.0-beta38",
+  "version": "1.0.0-beta39",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -25,7 +25,6 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
-    "commander": "^2.19.0",
     "css-loader": "^1.0.0",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
@@ -61,6 +60,7 @@
     "progress": "^2.0.0",
     "rimraf": "^2.6.2",
     "single-line-log": "^1.1.2",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "commander": "^2.19.0"
   }
 }

@@ -1,8 +1,7 @@
-import * as commander from "commander";
 import { resolve, join, extname, dirname } from "path";
 import { readdirSync, lstatSync, renameSync } from "fs";
 import { padStart } from "../../utils/utils";
-const { uuid, ProgressBar } = require("../../../dist-core/index");
+const { uuid, ProgressBar, commander } = require("../../../dist-core");
 
 function toInt(v: string) {
   return parseInt(v);
@@ -18,7 +17,7 @@ export function addRenameCommand() {
     .option("--start <n>", "开始序号", toInt, 1)
     .option("--step <n>", "步进", toInt, 2)
     .description("重命名指定目录下面的所有文件名称。按创建时间先后顺序，以序号命名")
-    .action(pars => {
+    .action((pars: any) => {
       let prefix = pars.prefix;
       let length = pars.length;
       let pathName = pars.path;

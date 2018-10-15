@@ -1,7 +1,7 @@
-import * as commander from "commander";
 import { getSubCommandListInfo } from "./utils/subCommand";
 
 const packageInfo = require("../package.json");
+const { commander } = require("../dist-core");
 
 commander.version(packageInfo.version, "-v, --version");
 
