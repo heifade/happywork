@@ -1,7 +1,9 @@
 // 根据module名称，获取pappywork引用的module目录
 export function getToolsModulePath(source: string) {
   let url = require.resolve(source);
-  return url.substr(0, url.lastIndexOf(source) + source.length);
+  url = url.substr(0, url.lastIndexOf(source) + source.length);
+  console.log('getToolsModulePath', source, url);
+  return url;
 }
 
 // 根据module名称，获取工程引用的module目录
