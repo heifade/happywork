@@ -9,7 +9,7 @@ function build() {
   let client = spawn(`tsc`, ["--project", `${resolve(__dirname)}`], {
     encoding: "utf-8",
     stdio: ["inherit", "inherit", "inherit"],
-    shell: true,
+    shell: true
   });
 
   client.on("exit", code => {
@@ -22,7 +22,7 @@ function build() {
 }
 
 function buildCore() {
-  const config = require(resolve(__dirname, '../core/webpackConfig.js'));
+  const config = require(resolve(__dirname, "../core/webpackConfig.js"));
   webpack(config, (err, stats) => {
     if (err) {
       console.error(err.stack || err);
@@ -31,13 +31,13 @@ function buildCore() {
     }
     const info = stats.toJson();
     if (stats.hasErrors()) {
-      info.errors.map((e) => {
+      info.errors.map(e => {
         console.log(chalk.red(e));
       });
       process.exit(1);
     }
     if (stats.hasWarnings()) {
-      info.warnings.map((e) => {
+      info.warnings.map(e => {
         console.log(chalk.yellow(e));
       });
     }
@@ -54,9 +54,12 @@ function buildCore() {
   });
 }
 
+stdout(chalk.green("正在清理dist-core...\n"));
+rimraf.sync(`${resolve(__dirname, "../dist-core")}`);
+stdout(chalk.green("正在构建dist-core...\n"));
 buildCore();
 
-stdout(chalk.green("正在清理...\n"));
+stdout(chalk.green("正在清理dist...\n"));
 rimraf.sync(`${resolve(__dirname, "../dist")}`);
 stdout(chalk.green("正在构建...\n"));
 build();

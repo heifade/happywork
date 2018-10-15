@@ -8,8 +8,4 @@ import * as ProgressBar from "progress";
 const ftp = require("basic-ftp");
 const openBrowser = require("open");
 
-
-
-
-
-export { uuid, chalk, address, openBrowser, rm, ftp,  singleLineLog, ProgressBar };
+export { uuid, chalk, address, openBrowser, rm, ftp, singleLineLog, ProgressBar };

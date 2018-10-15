@@ -1,16 +1,13 @@
-
-
 const { resolve } = require("path");
 
 const config = {
   mode: "production",
   entry: {
-    index: resolve(__dirname, "./index"),
+    index: resolve(__dirname, "./index")
   },
   output: {
     path: resolve(__dirname, "../dist-core"),
     filename: "[name].js",
-    // library: 'happyworkCore',
     libraryTarget: "commonjs"
   },
   target: "node",
@@ -24,24 +21,25 @@ const config = {
         exclude: /node_modules/,
         use: [
           {
-            loader: "babel-loader",
+            loader: "babel-loader"
           },
           {
             loader: "ts-loader",
             options: { transpileOnly: true }
           }
         ]
-      }, {
+      },
+      {
         test: /\.js?$/,
         exclude: /node_modules/,
         use: [
           {
-            loader: "babel-loader",
+            loader: "babel-loader"
           }
         ]
-      },
+      }
     ]
-  },
-}
+  }
+};
 
 module.exports = config;
