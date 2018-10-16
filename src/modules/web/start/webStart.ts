@@ -6,7 +6,6 @@ import { getConfig } from "./getConfig";
 export async function start() {
   let host = address();
 
-
   let { webConfig, webpackConfig } = await getConfig(host);
   let { port, proxy } = webConfig.development;
 
@@ -29,7 +28,7 @@ export async function start() {
 
   let server = new WebpackDevServer(compiler, serverConfig);
 
-  server.listen(port, "0.0.0.0", function () {
+  server.listen(port, "0.0.0.0", function() {
     console.log(chalk.green(`Starting server on http://${host}:${port}`));
     openBrowser(`http://${host}:${port}`);
   });

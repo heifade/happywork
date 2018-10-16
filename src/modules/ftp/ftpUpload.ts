@@ -37,5 +37,3 @@ export async function upload(pars: UploadProps) {
 
   await client.close();
 }
-
-

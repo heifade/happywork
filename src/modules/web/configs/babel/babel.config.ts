@@ -25,11 +25,11 @@ export function getBabelConfig(modules: boolean) {
         getToolsModulePath("@babel/plugin-transform-runtime"),
         {
           helpers: false,
-          regenerator: true,
+          regenerator: true
         }
       ],
 
-      getToolsModulePath("@babel/plugin-syntax-dynamic-import"),
+      getToolsModulePath("@babel/plugin-syntax-dynamic-import")
       // getToolsModulePath("babel-plugin-transform-es3-member-expression-literals"),
       // getToolsModulePath("babel-plugin-transform-es3-property-literals"),
       // getToolsModulePath("babel-plugin-transform-object-assign"),

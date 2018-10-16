@@ -2,7 +2,7 @@ import { resolve } from "path";
 import { des } from "../../utils/des";
 import { upload } from "./ftpUpload";
 
-const { chalk, commander } = require("../../../dist-core")
+const { chalk, commander } = require("../../../dist-core");
 
 function toInt(v: string) {
   return parseInt(v);

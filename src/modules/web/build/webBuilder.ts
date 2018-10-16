@@ -1,7 +1,7 @@
 import * as webpack from "webpack";
 import { getConfig } from "./getConfig";
 
-const { chalk, rm} = require("../../../../dist-core");
+const { chalk, rm } = require("../../../../dist-core");
 
 export async function build() {
   let { webConfig, webpackConfig } = await getConfig();
