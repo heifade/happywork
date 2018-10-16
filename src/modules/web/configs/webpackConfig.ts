@@ -2,8 +2,8 @@ import { Configuration, NamedModulesPlugin, HotModuleReplacementPlugin, ContextR
 import { resolve, join } from "path";
 import { getToolsModulePath } from "../../../utils/pathHelper";
 import { getBabelConfig } from "./babel/babel.config";
-import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
+import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { getWebConfig } from "./webConfig";
 import { WebConfig } from "happywork-config";
 
