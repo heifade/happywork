@@ -6,7 +6,6 @@ import chalk from "chalk";
 import ProgressBar from "progress";
 import commander from "commander";
 
-const ftp = require("basic-ftp");
 const openBrowser = require("open");
 
-export { chalk, openBrowser, ftp, ProgressBar, commander };
+export { chalk, openBrowser, ProgressBar, commander };
