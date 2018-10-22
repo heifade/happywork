@@ -1,12 +1,8 @@
 {
-  "include": ["src/**/*"],
   "compilerOptions": {
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "target": "esnext",
-    "jsx": "react",
-    "module": "esnext",
-    "declaration": true,
-    "sourceMap": true,
+    "allowJs": true,
+    "lib": ["es2015", "es2015.promise"],
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node"
   }
 }
